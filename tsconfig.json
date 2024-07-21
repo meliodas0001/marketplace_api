@@ -10,6 +10,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@database/*": ["./src/infra/database/*"],
+      "@entities/*": ["./src/infra/database/entities/*"],
+      "@repositories/*": ["./src/infra/database/repositories/*"],
+      "@domains/*": ["./src/http/domains/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
