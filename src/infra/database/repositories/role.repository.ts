@@ -13,6 +13,7 @@ export class RoleRepository implements IRoleRepository {
 
   async create(RoleCreate: IRoleCreate): Promise<RolesEntity> {
     const { role, storeId, user } = RoleCreate;
+
     const roleCreated = this.rolesEntity.create({ role: `${role}`, storeId });
 
     roleCreated.user = user;

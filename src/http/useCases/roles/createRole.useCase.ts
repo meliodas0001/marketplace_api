@@ -1,7 +1,8 @@
+import { ConflictException, Injectable } from '@nestjs/common';
+
 import { IRoleCreate } from '@domains/dtos/roles/IRoleCreate';
 import { IRoleRepository } from '@domains/repositories/IRoleRepository';
 import { IUserRepository } from '@domains/repositories/IUserRepository';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CreateRoleUseCase {
@@ -13,13 +14,16 @@ export class CreateRoleUseCase {
   async execute(roleCreate: IRoleCreate, email: string) {
     const user = await this.usersRepository.findByEmail(email);
 
-    const role = {
+    if (user.role.find((roles) => roles.storeId === roleCreate.storeId))
+      throw new ConflictException('User role already exist');
+
+    const roleCreated = await this.rolesRepository.create({
       ...roleCreate,
       user,
-    };
+    });
 
-    const roleCreated = await this.rolesRepository.create(role);
+    const { password, ...userWithoutPassword } = user;
 
-    return roleCreated;
+    return { ...roleCreated, user: userWithoutPassword };
   }
 }

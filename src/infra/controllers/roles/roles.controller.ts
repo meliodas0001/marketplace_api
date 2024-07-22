@@ -19,10 +19,13 @@ export class RolesController {
     @User() user: IPayload,
     @Res() res: Response,
   ): Promise<void> {
-    const { role } = body;
+    const { storeId, role } = body;
     const { email } = user;
 
-    const roles = await this.createRoleUseCase.execute(role, email);
+    const roles = await this.createRoleUseCase.execute(
+      { role, storeId },
+      email,
+    );
 
     res.json({ roles }).send();
   }

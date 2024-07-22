@@ -19,7 +19,6 @@ export class CreateStoresUseCase {
       throw new ConflictException('Store already exists');
 
     const store = await this.storeRepository.create(storeCreate, user);
-
     store.users.map((user) => delete user.password);
 
     return store;
