@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { UserEntity } from '@database/entities/user.entity';
 
-import { ICreateUserDTO } from '@domains/dtos/ICreateUserDTO';
+import { ICreateUserDTO } from '@domains/dtos/users/ICreateUserDTO';
 import { IUserRepository } from '@domains/repositories/IUserRepository';
 
 @Injectable()
