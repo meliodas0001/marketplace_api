@@ -23,9 +23,9 @@ export class UserController {
     @Body(new ValidatorPipe(CreateUserSchema)) user: ICreateUserDTO,
     @Res() res: Response,
   ): Promise<void> {
-    await this.createUserUseCase.execute(user);
+    const createdUser = await this.createUserUseCase.execute(user);
 
-    res.status(201).send();
+    res.json({ user: createdUser }).send();
   }
 
   @Post('login')

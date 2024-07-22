@@ -16,7 +16,8 @@
       "@repositories/*": ["./src/infra/database/repositories/*"],
       "@domains/*": ["./src/http/domains/*"],
       "@validators/*": ["./src/http/validators/*"],
-      "@useCases/*": ["./src/http/useCases/*"]
+      "@useCases/*": ["./src/http/useCases/*"],
+      "@test/*": ["./test/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
@@ -24,6 +25,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true
   }
 }

@@ -6,6 +6,7 @@ import { UserEntity } from '@database/entities/user.entity';
 
 import { ICreateUserDTO } from '@domains/dtos/users/ICreateUserDTO';
 import { IUserRepository } from '@domains/repositories/IUserRepository';
+import { IUserDTO } from '@domains/dtos/users/IUserDTO';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -13,10 +14,16 @@ export class UserRepository implements IUserRepository {
     @InjectRepository(UserEntity) private userEntity: Repository<UserEntity>,
   ) {}
 
-  async create(user: ICreateUserDTO): Promise<void> {
+  async create(user: ICreateUserDTO): Promise<IUserDTO> {
     const userCreated = this.userEntity.create(user);
 
     await this.userEntity.save(userCreated);
+
+    return {
+      name: userCreated.name,
+      email: userCreated.email,
+      id: userCreated.id,
+    };
   }
 
   async findByEmail(email: string): Promise<UserEntity> {

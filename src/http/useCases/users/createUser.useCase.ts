@@ -3,12 +3,13 @@ import { genSalt, hash } from 'bcrypt';
 
 import { IUserRepository } from '@domains/repositories/IUserRepository';
 import { ICreateUserDTO } from '@domains/dtos/users/ICreateUserDTO';
+import { IUserDTO } from '@domains/dtos/users/IUserDTO';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
-  async execute(data: ICreateUserDTO): Promise<void> {
+  async execute(data: ICreateUserDTO): Promise<IUserDTO> {
     const findUser = await this.userRepository.findByEmail(data.email);
 
     if (findUser) throw new ConflictException('User already exists');
@@ -21,6 +22,8 @@ export class CreateUserUseCase {
       password,
     };
 
-    await this.userRepository.create(user);
+    const userCreated = await this.userRepository.create(user);
+
+    return userCreated;
   }
 }
