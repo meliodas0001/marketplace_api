@@ -14,7 +14,9 @@
       "@database/*": ["./src/infra/database/*"],
       "@entities/*": ["./src/infra/database/entities/*"],
       "@repositories/*": ["./src/infra/database/repositories/*"],
-      "@domains/*": ["./src/http/domains/*"]
+      "@domains/*": ["./src/http/domains/*"],
+      "@validators/*": ["./src/http/validators/*"],
+      "@useCases/*": ["./src/http/useCases/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
