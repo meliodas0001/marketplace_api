@@ -12,21 +12,27 @@ export const MockUserRepository: IUserRepository = {
     name: user.name,
   })),
 
-  findByEmail: jest
-    .fn()
-    .mockImplementation(async (email: string): Promise<UserEntity | null> => {
-      switch (email) {
-        case 'return_user':
-          return {
-            id: uuid(),
-            email: 'sla',
-            password: 'hashed_password',
-            name: 'new_user',
-            role: [],
-            stores: [],
-          };
-        case 'null':
-          return null;
-      }
-    }),
+  findByEmail: jest.fn().mockImplementation(async (email: string) => {
+    switch (email) {
+      case 'return_user':
+        return {
+          id: 'mocked_id',
+          email: 'sla',
+          password: 'hashed_password',
+          name: 'new_user',
+          role: [],
+          stores: [],
+        };
+      case 'null':
+        return null;
+      case 'store_null':
+        return {
+          id: 'null',
+          email: 'sla',
+          password: 'hashed_password',
+          name: 'new_user',
+          role: [],
+        };
+    }
+  }),
 };
