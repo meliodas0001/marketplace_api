@@ -22,10 +22,12 @@ export class RoleRepository implements IRoleRepository {
     return roleCreated;
   }
 
-  async findRoleByUserId(userId: string): Promise<RolesEntity> {
-    const role = await this.rolesEntity.findOne({
+  async findRoleByUserId(userId: string): Promise<RolesEntity[]> {
+    const role = await this.rolesEntity.find({
       where: {
-        id: userId,
+        user: {
+          id: userId,
+        },
       },
     });
 

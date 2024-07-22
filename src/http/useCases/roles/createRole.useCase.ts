@@ -13,8 +13,9 @@ export class CreateRoleUseCase {
 
   async execute(roleCreate: IRoleCreate, email: string) {
     const user = await this.usersRepository.findByEmail(email);
+    const role = await this.rolesRepository.findRoleByUserId(user.id);
 
-    if (user.role.find((roles) => roles.storeId === roleCreate.storeId))
+    if (role.find((role) => role.storeId === roleCreate.storeId))
       throw new ConflictException('User role already exist');
 
     const roleCreated = await this.rolesRepository.create({

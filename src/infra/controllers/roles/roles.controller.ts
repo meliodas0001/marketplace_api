@@ -8,6 +8,9 @@ import { IPayload } from '@domains/dtos/users/IPayload';
 import { AuthGuard } from 'src/http/guards/auth.guard';
 import { User } from 'src/http/decorators/user.decorator';
 
+import { ValidatorPipe } from '@validators/validatorPipe';
+import { CreateRolesSchema } from '@validators/schemas/roles/createRolesSchema';
+
 @Controller('roles')
 @UseGuards(AuthGuard)
 export class RolesController {
@@ -15,7 +18,7 @@ export class RolesController {
 
   @Post()
   async create(
-    @Body() body: any,
+    @Body(new ValidatorPipe(CreateRolesSchema)) body: any,
     @User() user: IPayload,
     @Res() res: Response,
   ): Promise<void> {
