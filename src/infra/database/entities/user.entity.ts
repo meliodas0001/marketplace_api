@@ -28,11 +28,6 @@ export class UserEntity {
   password: string;
 
   @ManyToMany(() => StoreEntity)
-  @JoinTable({
-    name: 'store_users',
-    joinColumn: { name: 'user_id' },
-    inverseJoinColumn: { name: 'store_id' },
-  })
   stores: StoreEntity[];
 
   @OneToMany(() => RolesEntity, (roles) => roles.role)

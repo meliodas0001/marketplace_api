@@ -24,7 +24,7 @@ export class ProductsEntity {
   description: string;
 
   @OneToMany(() => ImagesEntity, (images) => images.products)
-  images: ImagesEntity[];
+  images?: ImagesEntity[];
 
   @OneToOne(
     () => ProductsPriceEntity,

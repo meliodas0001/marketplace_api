@@ -17,6 +17,8 @@ export class UserRepository implements IUserRepository {
   async create(user: ICreateUserDTO): Promise<IUserDTO> {
     const userCreated = this.userEntity.create(user);
 
+    userCreated.stores = [];
+
     await this.userEntity.save(userCreated);
 
     return {
@@ -33,6 +35,9 @@ export class UserRepository implements IUserRepository {
       },
       select: {
         password: true,
+        email: true,
+        id: true,
+        name: true,
       },
     });
   }

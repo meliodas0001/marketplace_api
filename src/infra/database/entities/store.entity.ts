@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { UserEntity } from './user.entity';
 
@@ -19,7 +19,15 @@ export class StoreEntity {
   @Column()
   phone: string;
 
+  @Column()
+  ownerId: string;
+
   @ManyToMany(() => UserEntity)
+  @JoinTable({
+    name: 'store_users',
+    joinColumn: { name: 'user_id' },
+    inverseJoinColumn: { name: 'store_id' },
+  })
   users: UserEntity[];
 
   constructor() {

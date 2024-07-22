@@ -26,6 +26,7 @@ const configTypeorm: DataSourceOptions = {
     CategoriesEntity,
   ],
   synchronize: true,
+  logging: true,
 };
 
 export default configTypeorm;
