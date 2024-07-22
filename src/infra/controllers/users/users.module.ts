@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
+
 import { DatabaseModule } from '@database/database.module';
+import { JwtModule } from '@nestjs/jwt';
 
 import { UserController } from './user.controller';
 
@@ -9,6 +11,6 @@ import { LoginUseCase } from '@useCases/users/login.useCase';
 @Module({
   controllers: [UserController],
   providers: [CreateUserUseCase, LoginUseCase],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, JwtModule],
 })
 export class UsersModule {}
