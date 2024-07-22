@@ -1,6 +1,11 @@
 import { MockUserRepository } from '../../../../test/mocks/userRepository.mock';
 import { CreateUserUseCase } from './createUser.useCase';
 
+jest.mock('bcrypt', () => ({
+  genSalt: jest.fn().mockResolvedValue('salt'),
+  hash: jest.fn().mockResolvedValue('hashed_password'),
+}));
+
 describe('createUserUseCase', () => {
   const mockUserRepository = MockUserRepository;
   const createUserUseCase = new CreateUserUseCase(mockUserRepository);

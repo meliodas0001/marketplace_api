@@ -2,14 +2,11 @@ import { ILoginDTO } from '@domains/dtos/users/ILoginDTO';
 import { IUserRepository } from '@domains/repositories/IUserRepository';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { compare } from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
+import { sign } from 'jsonwebtoken';
 
 @Injectable()
 export class LoginUseCase {
-  constructor(
-    private userRepository: IUserRepository,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async execute(data: ILoginDTO): Promise<string> {
     const user = await this.userRepository.findByEmail(data.email);
@@ -22,8 +19,7 @@ export class LoginUseCase {
 
     const payload = { email: user.email };
 
-    const accessToken = await this.jwtService.signAsync(payload, {
-      secret: process.env.API_SECRET,
+    const accessToken = await sign(payload, process.env.API_SECRET, {
       expiresIn: '1d',
     });
 
