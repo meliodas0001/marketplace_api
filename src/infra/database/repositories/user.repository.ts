@@ -24,6 +24,9 @@ export class UserRepository implements IUserRepository {
       where: {
         email,
       },
+      select: {
+        password: true,
+      },
     });
   }
 }
