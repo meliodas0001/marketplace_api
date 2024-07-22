@@ -11,7 +11,13 @@ export class StoreEntity {
   store_name: string;
 
   @Column()
+  description: string;
+
+  @Column()
   address: string;
+
+  @Column()
+  phone: string;
 
   @ManyToMany(() => UserEntity)
   users: UserEntity[];
