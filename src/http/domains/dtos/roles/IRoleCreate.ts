@@ -4,5 +4,5 @@ import { RoleEnum } from '@domains/enums/RoleEnum';
 export interface IRoleCreate {
   role: RoleEnum;
   storeId: string;
-  user: UserEntity;
+  user?: UserEntity;
 }
