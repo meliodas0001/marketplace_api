@@ -33,6 +33,14 @@ export const MockUserRepository: IUserRepository = {
           name: 'new_user',
           role: [],
         };
+      case 'role_null':
+        return {
+          id: 'null',
+          email: 'sla',
+          password: 'hashed_password',
+          name: 'new_user',
+          role: [],
+        };
     }
   }),
 };

@@ -24,7 +24,23 @@ export const storeRepositoryMock: IStoreRepository = {
   findStoreById: jest.fn().mockImplementation(async (id: string) => {
     switch (id) {
       case 'null':
-        return [];
+        return undefined;
+      case 'store_null':
+        return {
+          id: 'null',
+          store_name: 'mocked_store_name',
+          description: 'mocked_store_description',
+          address: 'mocked_store_address',
+          ownerId: 'mocked_owner_id',
+          phone: 'mocked_store_phone',
+          users: [
+            {
+              id: 'mocked_user_id',
+              name: 'mocked_user_name',
+              email: 'mocked_user_email',
+            },
+          ],
+        };
       case 'mocked_id':
         return {
           id: 'mocked_id',
