@@ -17,7 +17,7 @@ export class LoginUseCase {
     if (!isPasswordCorrect)
       throw new UnauthorizedException('Email or password incorrect');
 
-    const payload = { email: user.email };
+    const payload = { email: user.email, id: user.id };
 
     const accessToken = await sign(payload, process.env.API_SECRET, {
       expiresIn: '1d',
