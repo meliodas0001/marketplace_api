@@ -18,34 +18,49 @@ jest.mock('jsonwebtoken', () => ({
 }));
 
 describe('login useCase', () => {
-  const loginUseCase = new LoginUseCase(MockUserRepository);
-  it('should login a user', async () => {
-    const user = {
-      email: 'return_user',
-      password: 'hashed_password',
-    };
+  let loginUseCase: LoginUseCase;
 
-    expect(await loginUseCase.execute(user)).toBe('token');
+  const user = {
+    email: 'johndoe@emai.com',
+    password: 'hashed_password',
+  };
+
+  const findUser = {
+    email: 'johndoe@emai.com',
+    password: 'hashed_password',
+    id: '1',
+    name: 'johndoe',
+  };
+
+  beforeEach(() => {
+    loginUseCase = new LoginUseCase(MockUserRepository);
   });
 
-  it('should not return a token', async () => {
-    const user = {
-      email: 'null',
-      password: 'wrong_password',
-    };
+  it('should login a user', async () => {
+    (MockUserRepository.findByEmail as jest.Mock).mockResolvedValueOnce(
+      findUser,
+    );
 
-    expect(loginUseCase.execute(user)).rejects.toThrow(
+    const token = await loginUseCase.execute(user);
+
+    expect(token).toEqual('token');
+  });
+
+  it('it should return a error if user doesnt exist', async () => {
+    (MockUserRepository.findByEmail as jest.Mock).mockResolvedValueOnce({});
+
+    await expect(loginUseCase.execute(user)).rejects.toThrow(
       'Email or password incorrect',
     );
   });
 
-  it('should not return a token', async () => {
-    const user = {
-      email: 'null',
-      password: '123456',
-    };
+  it('should not login a user if password is incorrect', async () => {
+    (MockUserRepository.findByEmail as jest.Mock).mockResolvedValueOnce({
+      ...findUser,
+      password: 'wrongpass',
+    });
 
-    expect(loginUseCase.execute(user)).rejects.toThrow(
+    await expect(loginUseCase.execute(user)).rejects.toThrow(
       'Email or password incorrect',
     );
   });

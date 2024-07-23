@@ -1,3 +1,4 @@
+import { ICreateUserDTO } from '@domains/dtos/users/ICreateUserDTO';
 import { MockUserRepository } from '../../../../test/mocks/userRepository.mock';
 import { CreateUserUseCase } from './createUser.useCase';
 
@@ -8,30 +9,43 @@ jest.mock('bcrypt', () => ({
 
 describe('createUserUseCase', () => {
   const mockUserRepository = MockUserRepository;
-  const createUserUseCase = new CreateUserUseCase(mockUserRepository);
+  let createUserUseCase: CreateUserUseCase;
 
-  it('should create a user', async () => {
-    const user = {
-      email: 'null',
-      password: '123456',
-      name: 'John Doe',
-    };
+  beforeEach(() => {
+    createUserUseCase = new CreateUserUseCase(mockUserRepository);
 
-    const createdUser = await createUserUseCase.execute(user);
-
-    expect(createdUser).toHaveProperty('email');
-    expect(createdUser).toHaveProperty('name');
-    expect(createdUser).toHaveProperty('id');
+    jest.clearAllMocks();
   });
 
-  it('should return user already exist', () => {
-    const user = {
-      email: 'return_user',
-      password: '123456',
-      name: 'John Doe',
-    };
+  const createUser: ICreateUserDTO = {
+    email: 'johndoe@email.com',
+    name: 'johndoe',
+    password: 'password',
+  };
 
-    expect(createUserUseCase.execute(user)).rejects.toThrow(
+  const createUserResolved = {
+    id: '1',
+    email: 'johndoe@email.com',
+    name: 'johndoe',
+    password: 'password',
+  };
+
+  it('should create a user', async () => {
+    (mockUserRepository.create as jest.Mock).mockResolvedValueOnce(
+      createUserResolved,
+    );
+
+    const user = await createUserUseCase.execute(createUser);
+
+    expect(user).toEqual(createUserResolved);
+  });
+
+  it('should not create a user if it already exists', async () => {
+    (mockUserRepository.findByEmail as jest.Mock).mockResolvedValueOnce(
+      createUser,
+    );
+
+    await expect(createUserUseCase.execute(createUser)).rejects.toThrow(
       'User already exists',
     );
   });

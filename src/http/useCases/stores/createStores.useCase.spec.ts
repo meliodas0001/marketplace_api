@@ -3,48 +3,67 @@ import { CreateStoresUseCase } from './createStores.useCase';
 import { MockUserRepository } from '@test/mocks/userRepository.mock';
 
 describe('createStores useCase', () => {
-  const createStoresUseCase = new CreateStoresUseCase(
-    storeRepositoryMock,
-    MockUserRepository,
-  );
+  let createStoresUseCase: CreateStoresUseCase;
 
-  it('should create a store', async () => {
-    const store = {
-      store_name: 'mocked_store_name',
-      description: 'mocked_store_description',
-      address: 'mocked_store_address',
-      ownerId: 'mocked_owner_id',
-      phone: 'mocked_store_phone',
-    };
+  const user = {
+    id: '1',
+    name: 'johndoe',
+    email: 'johndoe@email.com',
+    password: 'password',
+  };
 
-    expect(await createStoresUseCase.execute(store, 'store_null')).toEqual({
-      id: 'mocked_id',
-      store_name: 'mocked_store_name',
-      description: 'mocked_store_description',
-      address: 'mocked_store_address',
-      ownerId: 'mocked_owner_id',
-      phone: 'mocked_store_phone',
-      users: [
-        {
-          id: 'mocked_user_id',
-          name: 'mocked_user_name',
-          email: 'mocked_user_email',
-        },
-      ],
-    });
+  const stores = {
+    id: '1',
+    store_name: 'Testt',
+    description: 'test',
+    address: 'test',
+    phone: 'test',
+    ownerId: '1',
+    users: [
+      {
+        id: '1',
+        name: 'johndoe',
+        email: 'johndoe@email.com',
+      },
+    ],
+  };
+
+  const createStore = {
+    store_name: 'Testt',
+    description: 'test',
+    address: 'test',
+    phone: 'test',
+  };
+
+  beforeEach(() => {
+    createStoresUseCase = new CreateStoresUseCase(
+      storeRepositoryMock,
+      MockUserRepository,
+    );
   });
 
-  it('should not create a store if it already exists', async () => {
-    const store = {
-      store_name: 'mocked_store_name',
-      description: 'mocked_store_description',
-      address: 'mocked_store_address',
-      ownerId: 'mocked_owner_id',
-      phone: 'mocked_store_phone',
-    };
+  it('should create a store', async () => {
+    (MockUserRepository.findByEmail as jest.Mock).mockReturnValue(user);
+    (storeRepositoryMock.findStoreByOwnerId as jest.Mock).mockReturnValue([]);
+    (storeRepositoryMock.create as jest.Mock).mockReturnValue(stores);
 
-    expect(createStoresUseCase.execute(store, 'return_user')).rejects.toThrow(
-      'Store already exists',
+    const store = await createStoresUseCase.execute(
+      createStore,
+      'johndoe@email.com',
     );
+
+    await expect(store).toEqual(stores);
+  });
+
+  it('should return a store if store already exist', async () => {
+    (MockUserRepository.findByEmail as jest.Mock).mockReturnValue(user);
+    (storeRepositoryMock.findStoreByOwnerId as jest.Mock).mockReturnValue([
+      stores,
+    ]);
+    (storeRepositoryMock.create as jest.Mock).mockReturnValue(stores);
+
+    await expect(
+      createStoresUseCase.execute(createStore, 'johndoe@email.com'),
+    ).rejects.toThrow('Store already exists');
   });
 });

@@ -18,13 +18,12 @@ export class CreateRoleUseCase {
   ) {}
 
   async execute(roleCreate: IRoleCreate, email: string) {
-    const user = await this.usersRepository.findByEmail(email); // return_user
     const store = await this.storeRepository.findStoreById(roleCreate.storeId);
 
     if (!store) throw new UnauthorizedException('Store not found');
 
-    const role = await this.rolesRepository.findRoleByUserId(user.id); //
-    console.log(user.id, role[0].storeId, roleCreate.storeId);
+    const user = await this.usersRepository.findByEmail(email);
+    const role = await this.rolesRepository.findRoleByUserId(user.id);
 
     if (role.find((role) => role.storeId === roleCreate.storeId))
       throw new ConflictException('User role already exist');

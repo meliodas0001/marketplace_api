@@ -5,50 +5,99 @@ import { storeRepositoryMock } from '@test/mocks/storeRepository.mock';
 import { RoleEnum } from '@domains/enums/RoleEnum';
 
 describe('createRole useCase', () => {
-  const createRoleUseCase = new CreateRoleUseCase(
-    RoleRepositoryMock,
-    MockUserRepository,
-    storeRepositoryMock,
-  );
+  let createRoleUseCase: CreateRoleUseCase;
 
-  it('should create a role', async () => {
-    const role = {
-      role: RoleEnum.Admin,
-      storeId: 'store_null',
-    };
+  const role = {
+    role: RoleEnum.Admin,
+    storeId: '1',
+  };
 
-    expect(await createRoleUseCase.execute(role, 'role_null')).toEqual({
-      id: 'mocked_id',
-      role: 'Admin',
-      storeId: 'store_null',
-      user: {
-        id: 'null',
-        email: 'sla',
-        name: 'new_user',
-        role: [],
+  const returnRole = {
+    id: '1',
+    role: 'Admin',
+    storeId: '1',
+    userId: '1',
+  };
+
+  const user = {
+    id: '1',
+    name: 'johndoe',
+    email: 'johndoe@email.com',
+    password: 'password',
+  };
+
+  const stores = {
+    id: '1',
+    store_name: 'Testt',
+    description: 'test',
+    address: 'test',
+    phone: 'test',
+    ownerId: '1',
+    users: [
+      {
+        id: '1',
+        name: 'johndoe',
+        email: 'johndoe@email.com',
       },
-    });
-  });
+    ],
+  };
 
-  it('should throw an error if the store does not exist', async () => {
-    const role = {
-      role: RoleEnum.Admin,
-      storeId: 'null',
-    };
+  const returnedRoleWithUser = {
+    id: '1',
+    role: 'Admin',
+    storeId: '1',
+    userId: '1',
+    user: { id: '1', name: 'johndoe', email: 'johndoe@email.com' },
+  };
 
-    await expect(createRoleUseCase.execute(role, 'role_null')).rejects.toThrow(
-      'Store not found',
+  beforeEach(() => {
+    createRoleUseCase = new CreateRoleUseCase(
+      RoleRepositoryMock,
+      MockUserRepository,
+      storeRepositoryMock,
     );
   });
 
-  it('should throw an error if the role already exists', async () => {
-    const role = {
-      role: RoleEnum.Admin,
-      storeId: 'mocked_id',
-    };
+  (storeRepositoryMock.findStoreById as jest.Mock).mockResolvedValueOnce(
+    stores,
+  );
+
+  it('should create a role', async () => {
+    (MockUserRepository.findByEmail as jest.Mock).mockResolvedValueOnce(user);
+    (RoleRepositoryMock.findRoleByUserId as jest.Mock).mockResolvedValueOnce(
+      [],
+    );
+    (RoleRepositoryMock.create as jest.Mock).mockResolvedValueOnce(returnRole);
+
+    const createRole = await createRoleUseCase.execute(
+      role,
+      'johndoe@email.com',
+    );
+
+    expect(createRole).toEqual(returnedRoleWithUser);
+  });
+
+  it('should return a error if store not exist', async () => {
+    (storeRepositoryMock.findStoreById as jest.Mock).mockResolvedValueOnce(
+      null,
+    );
 
     await expect(
-      createRoleUseCase.execute(role, 'return_user'),
+      createRoleUseCase.execute(role, 'johndoe@email.com'),
+    ).rejects.toThrow('Store not found');
+  });
+
+  it('should return a error if user role already exist', async () => {
+    (storeRepositoryMock.findStoreById as jest.Mock).mockResolvedValueOnce(
+      stores,
+    );
+    (MockUserRepository.findByEmail as jest.Mock).mockResolvedValueOnce(user);
+    (RoleRepositoryMock.findRoleByUserId as jest.Mock).mockResolvedValueOnce([
+      returnRole,
+    ]);
+
+    await expect(
+      createRoleUseCase.execute(role, 'johndoe@email.com'),
     ).rejects.toThrow('User role already exist');
   });
 });
