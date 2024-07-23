@@ -16,7 +16,10 @@ const getContext: any = (bearer: string) => ({
 
 jest.mock('jsonwebtoken', () => ({
   verify: jest.fn().mockImplementation((token: string) => {
-    token === 'invalid' ? false : true;
+    if (token === 'invalid') {
+      throw new Error('Invalid token');
+    }
+    return true;
   }),
 }));
 
@@ -30,14 +33,14 @@ describe('AuthGuard', () => {
   });
 
   it('should throw an error if token is not provided', async () => {
-    expect(authGuard.canActivate(getContext(''))).rejects.toThrow(
+    await expect(authGuard.canActivate(getContext(''))).rejects.toThrow(
       'Token not provided',
     );
   });
 
   it('should throw an error if token is invalid', async () => {
-    expect(authGuard.canActivate(getContext('Bearer invalid'))).rejects.toThrow(
-      'Invalid token',
-    );
+    await expect(
+      authGuard.canActivate(getContext('Bearer invalid')),
+    ).rejects.toThrow('Invalid token');
   });
 });

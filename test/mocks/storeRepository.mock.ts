@@ -4,4 +4,5 @@ export const storeRepositoryMock: IStoreRepository = {
   create: jest.fn(),
   findStoreById: jest.fn(),
   findStoreByOwnerId: jest.fn(),
+  findStoreUsers: jest.fn(),
 };
