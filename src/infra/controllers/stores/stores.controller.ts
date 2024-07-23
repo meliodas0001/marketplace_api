@@ -1,20 +1,31 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+
 import { Response } from 'express';
 
 import { IStoreCreateDTO } from '@domains/dtos/store/IStoreCreateDTO';
 import { IPayload } from '@domains/dtos/users/IPayload';
 
+import { FindStoreUsersUseCase } from '@useCases/stores/findStoreUsers.useCase';
 import { CreateStoresUseCase } from '@useCases/stores/createStores.useCase';
+
 import { CreateStoresSchema } from '@validators/schemas/stores/createStoresSchema';
 import { ValidatorPipe } from '@validators/validatorPipe';
 
-import { AuthGuard } from 'src/http/guards/auth.guard';
-import { User } from 'src/http/decorators/user.decorator';
+import { AuthGuard } from '@guards/auth.guard';
+import { RolesGuard } from '@guards/roles.guard';
+
+import { User } from '@decorators/user.decorator';
+import { Roles } from '@decorators/roles.decorator';
+
+import { RoleEnum } from '@domains/enums/RoleEnum';
 
 @Controller('store')
 @UseGuards(AuthGuard)
 export class StoresController {
-  constructor(private createStoresUseCase: CreateStoresUseCase) {}
+  constructor(
+    private createStoresUseCase: CreateStoresUseCase,
+    private findStoreUsersUseCase: FindStoreUsersUseCase,
+  ) {}
 
   @Post()
   async create(
@@ -30,5 +41,14 @@ export class StoresController {
     );
 
     res.json(store).send();
+  }
+
+  @Get()
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin)
+  async findUsers(@Body() body: any, @Res() res: Response) {
+    const users = await this.findStoreUsersUseCase.execute(body.storeId);
+
+    res.json(users).send();
   }
 }

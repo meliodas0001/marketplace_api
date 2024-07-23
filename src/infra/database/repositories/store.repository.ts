@@ -7,6 +7,7 @@ import { StoreEntity } from '@database/entities/store.entity';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 import { IStoreCreateDTO } from '@domains/dtos/store/IStoreCreateDTO';
 import { UserEntity } from '@database/entities/user.entity';
+import { IUsersStore } from '@domains/dtos/store/IUsersStore';
 
 @Injectable()
 export class StoreRepository implements IStoreRepository {
@@ -36,6 +37,24 @@ export class StoreRepository implements IStoreRepository {
     return await this.storeEntity.find({
       where: {
         ownerId,
+      },
+    });
+  }
+
+  async findStoreUsers(storeId: string): Promise<any[]> {
+    return await this.storeEntity.find({
+      relations: ['users'],
+      where: {
+        id: storeId,
+      },
+      select: {
+        store_name: false,
+        address: false,
+        description: false,
+        id: false,
+
+        ownerId: true,
+        users: true,
       },
     });
   }

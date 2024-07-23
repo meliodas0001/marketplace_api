@@ -17,7 +17,9 @@
       "@domains/*": ["./src/http/domains/*"],
       "@validators/*": ["./src/http/validators/*"],
       "@useCases/*": ["./src/http/useCases/*"],
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
+      "@decorators/*": ["./src/http/decorators/*"],
+      "@guards/*": ["./src/http/guards/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
