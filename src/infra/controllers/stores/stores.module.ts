@@ -6,6 +6,7 @@ import { CreateStoresUseCase } from '@useCases/stores/createStores.useCase';
 import { FindStoreUsersUseCase } from '@useCases/stores/findStoreUsers.useCase';
 import { FindAllStoresUseCase } from '@useCases/stores/findAllStores.useCase';
 import { AddUsersToStoreUseCase } from '@useCases/stores/addUsersToStore.useCase';
+import { UpdateStoreUseCase } from '@useCases/stores/updateStore.useCase';
 
 @Module({
   controllers: [StoresController],
@@ -14,6 +15,7 @@ import { AddUsersToStoreUseCase } from '@useCases/stores/addUsersToStore.useCase
     FindStoreUsersUseCase,
     FindAllStoresUseCase,
     AddUsersToStoreUseCase,
+    UpdateStoreUseCase,
   ],
   imports: [DatabaseModule],
 })

@@ -34,6 +34,7 @@ import { FindAllStoresUseCase } from '@useCases/stores/findAllStores.useCase';
 import { AddUsersToStoreUseCase } from '@useCases/stores/addUsersToStore.useCase';
 import { IAddUsersToStore } from '@domains/dtos/store/IAddUsersToStore';
 import { AddUsersToStoreSchema } from '@validators/schemas/stores/addUsersToStoreSchema';
+import { UpdateStoreUseCase } from '@useCases/stores/updateStore.useCase';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -43,6 +44,7 @@ export class StoresController {
     private findStoreUsersUseCase: FindStoreUsersUseCase,
     private findAllStoresUseCase: FindAllStoresUseCase,
     private addUsersToStoreUseCase: AddUsersToStoreUseCase,
+    private updateStoreUseCase: UpdateStoreUseCase,
   ) {}
 
   @Post()
@@ -93,5 +95,14 @@ export class StoresController {
     await this.addUsersToStoreUseCase.execute(storeId, usersIds);
 
     res.status(201).send();
+  }
+
+  @Put('update')
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin)
+  async updateStore(@Body() body: any, @Res() res: Response) {
+    await this.updateStoreUseCase.execute(body);
+
+    res.status(200).send();
   }
 }
