@@ -12,10 +12,21 @@ import { Response } from 'express';
 
 import { IStoreCreateDTO } from '@domains/dtos/store/IStoreCreateDTO';
 import { IPayload } from '@domains/dtos/users/IPayload';
+import { IAddUsersToStore } from '@domains/dtos/store/IAddUsersToStore';
+import { RoleEnum } from '@domains/enums/RoleEnum';
 
 import { FindStoreUsersUseCase } from '@useCases/stores/findStoreUsers.useCase';
 import { CreateStoresUseCase } from '@useCases/stores/createStores.useCase';
+import { UpdateStoreUseCase } from '@useCases/stores/updateStore.useCase';
+import { AddUsersToStoreUseCase } from '@useCases/stores/addUsersToStore.useCase';
+import { FindAllStoresUseCase } from '@useCases/stores/findAllStores.useCase';
 
+import {
+  findStoreUsersSchema,
+  IFindStoreUsersSchema,
+} from '@validators/schemas/stores/findStoreUsersSchema';
+import { AddUsersToStoreSchema } from '@validators/schemas/stores/addUsersToStoreSchema';
+import { updateStoreSchema } from '@validators/schemas/stores/updateStoreSchema';
 import { CreateStoresSchema } from '@validators/schemas/stores/createStoresSchema';
 import { ValidatorPipe } from '@validators/validatorPipe';
 
@@ -24,17 +35,7 @@ import { RolesGuard } from '@guards/roles.guard';
 
 import { User } from '@decorators/user.decorator';
 import { Roles } from '@decorators/roles.decorator';
-
-import { RoleEnum } from '@domains/enums/RoleEnum';
-import {
-  findStoreUsersSchema,
-  IFindStoreUsersSchema,
-} from '@validators/schemas/stores/findStoreUsersSchema';
-import { FindAllStoresUseCase } from '@useCases/stores/findAllStores.useCase';
-import { AddUsersToStoreUseCase } from '@useCases/stores/addUsersToStore.useCase';
-import { IAddUsersToStore } from '@domains/dtos/store/IAddUsersToStore';
-import { AddUsersToStoreSchema } from '@validators/schemas/stores/addUsersToStoreSchema';
-import { UpdateStoreUseCase } from '@useCases/stores/updateStore.useCase';
+import { IStoreUpdate } from '@domains/dtos/store/IStoreUpdate';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -100,8 +101,20 @@ export class StoresController {
   @Put('update')
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin)
-  async updateStore(@Body() body: any, @Res() res: Response) {
-    await this.updateStoreUseCase.execute(body);
+  async updateStore(
+    @Body(new ValidatorPipe(updateStoreSchema)) body: IStoreUpdate,
+    @Res() res: Response,
+  ) {
+    const { storeId, address, description, ownerId, phone, store_name } = body;
+
+    await this.updateStoreUseCase.execute({
+      storeId,
+      address,
+      description,
+      ownerId,
+      phone,
+      store_name,
+    });
 
     res.status(200).send();
   }
