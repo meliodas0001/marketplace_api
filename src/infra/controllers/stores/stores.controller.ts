@@ -123,9 +123,13 @@ export class StoresController {
   @Delete()
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin)
-  async deleteStore(@Body() body: { storeId: string } @Res() res: Response) {
-    const { storeId } = body
+  async deleteStore(
+    @Body() body: { storeId: string },
+    @User() user: IPayload,
+    @Res() res: Response,
+  ) {
+    const { storeId } = body;
 
-    res.status(200).send()
+    res.status(200).send();
   }
 }
