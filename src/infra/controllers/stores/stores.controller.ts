@@ -37,6 +37,7 @@ import { RolesGuard } from '@guards/roles.guard';
 import { User } from '@decorators/user.decorator';
 import { Roles } from '@decorators/roles.decorator';
 import { IStoreUpdate } from '@domains/dtos/store/IStoreUpdate';
+import { DeleteStoreUseCase } from '@useCases/stores/deleteStoreUseCase';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -47,6 +48,7 @@ export class StoresController {
     private findAllStoresUseCase: FindAllStoresUseCase,
     private addUsersToStoreUseCase: AddUsersToStoreUseCase,
     private updateStoreUseCase: UpdateStoreUseCase,
+    private deleteStoreUseCase: DeleteStoreUseCase,
   ) {}
 
   @Post()
@@ -129,6 +131,8 @@ export class StoresController {
     @Res() res: Response,
   ) {
     const { storeId } = body;
+
+    await this.deleteStoreUseCase.execute(storeId, user.id);
 
     res.status(200).send();
   }
