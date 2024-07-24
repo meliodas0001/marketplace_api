@@ -93,4 +93,10 @@ export class StoreRepository implements IStoreRepository {
 
     await this.storeEntity.save(findStore);
   }
+
+  async deleteStore(storeId: string): Promise<void> {
+    await this.storeEntity.delete({
+      id: storeId,
+    });
+  }
 }

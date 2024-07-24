@@ -1,4 +1,3 @@
-import { IStoreUpdate } from '@domains/dtos/store/IStoreUpdate';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 
 export const storeRepositoryMock: IStoreRepository = {
@@ -9,4 +8,5 @@ export const storeRepositoryMock: IStoreRepository = {
   findStoresByUserId: jest.fn(),
   addUsersToStore: jest.fn(),
   updateStore: jest.fn(),
+  deleteStore: jest.fn(),
 };
