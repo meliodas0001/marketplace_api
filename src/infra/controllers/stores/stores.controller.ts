@@ -18,6 +18,10 @@ import { User } from '@decorators/user.decorator';
 import { Roles } from '@decorators/roles.decorator';
 
 import { RoleEnum } from '@domains/enums/RoleEnum';
+import {
+  findStoreUsersSchema,
+  IFindStoreUsersSchema,
+} from '@validators/schemas/users/findStoreUsersSchema';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -46,8 +50,13 @@ export class StoresController {
   @Get()
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin)
-  async findUsers(@Body() body: any, @Res() res: Response) {
-    const users = await this.findStoreUsersUseCase.execute(body.storeId);
+  async findUsers(
+    @Body(new ValidatorPipe(findStoreUsersSchema)) body: IFindStoreUsersSchema,
+    @Res() res: Response,
+  ) {
+    const { storeId } = body;
+
+    const users = await this.findStoreUsersUseCase.execute(storeId);
 
     res.json(users).send();
   }
