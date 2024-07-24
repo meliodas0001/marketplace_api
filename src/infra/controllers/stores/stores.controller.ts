@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 
 import { Response } from 'express';
 
@@ -23,6 +31,7 @@ import {
   IFindStoreUsersSchema,
 } from '@validators/schemas/users/findStoreUsersSchema';
 import { FindAllStoresUseCase } from '@useCases/stores/findAllStores.useCase';
+import { AddUsersToStoreUseCase } from '@useCases/stores/addUsersToStore.useCase';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -31,6 +40,7 @@ export class StoresController {
     private createStoresUseCase: CreateStoresUseCase,
     private findStoreUsersUseCase: FindStoreUsersUseCase,
     private findAllStoresUseCase: FindAllStoresUseCase,
+    private addUsersToStoreUseCase: AddUsersToStoreUseCase,
   ) {}
 
   @Post()
@@ -68,5 +78,14 @@ export class StoresController {
     const stores = await this.findAllStoresUseCase.execute(user.id);
 
     res.json(stores).send();
+  }
+
+  @Put('users')
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin, RoleEnum.Moderator)
+  async addUsers(@Body() body: any, @Res() res: Response) {
+    await this.addUsersToStoreUseCase.execute(body.storeId, body.usersIds);
+
+    res.status(201).send();
   }
 }

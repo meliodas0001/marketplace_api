@@ -3,11 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { StoreEntity } from '@database/entities/store.entity';
+import { UserEntity } from '@database/entities/user.entity';
 
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 import { IStoreCreateDTO } from '@domains/dtos/store/IStoreCreateDTO';
-import { UserEntity } from '@database/entities/user.entity';
-import { IUsersStore } from '@domains/dtos/store/IUsersStore';
 
 @Injectable()
 export class StoreRepository implements IStoreRepository {
@@ -65,5 +64,18 @@ export class StoreRepository implements IStoreRepository {
       .innerJoin('store.users', 'users')
       .where('users.id = :userId', { userId })
       .getMany();
+  }
+
+  async addUsersToStore(storeId: string, users: UserEntity[]): Promise<void> {
+    const store = await this.storeEntity.findOne({
+      where: {
+        id: storeId,
+      },
+      relations: ['users'],
+    });
+
+    store.users = [...store.users, ...users];
+
+    await this.storeEntity.save(store);
   }
 }

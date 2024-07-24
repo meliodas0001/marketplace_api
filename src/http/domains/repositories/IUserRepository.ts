@@ -6,4 +6,5 @@ export abstract class IUserRepository {
   abstract create(user: ICreateUserDTO): Promise<IUserDTO>;
   abstract findByEmail(email: string): Promise<UserEntity>;
   abstract findById(userId: string): Promise<UserEntity>;
+  abstract findByIds(usersIds: string[]): Promise<UserEntity[]>;
 }

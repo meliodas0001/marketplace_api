@@ -1,5 +1,6 @@
 import { StoreEntity } from '@database/entities/store.entity';
 import { UserEntity } from '@database/entities/user.entity';
+import { IAddUsersToStore } from '@domains/dtos/store/IAddUsersToStore';
 import { IStoreCreateDTO } from '@domains/dtos/store/IStoreCreateDTO';
 
 export abstract class IStoreRepository {
@@ -11,4 +12,5 @@ export abstract class IStoreRepository {
   abstract findStoreByOwnerId(ownerId: string): Promise<StoreEntity[]>;
   abstract findStoreUsers(storeId: string): Promise<any[]>;
   abstract findStoresByUserId(userId: string): Promise<StoreEntity[]>;
+  abstract addUsersToStore(storeId: string, users: UserEntity[]): Promise<void>;
 }
