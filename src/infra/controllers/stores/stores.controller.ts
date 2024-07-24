@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   Put,
@@ -117,5 +118,14 @@ export class StoresController {
     });
 
     res.status(200).send();
+  }
+
+  @Delete()
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin)
+  async deleteStore(@Body() body: { storeId: string } @Res() res: Response) {
+    const { storeId } = body
+
+    res.status(200).send()
   }
 }
