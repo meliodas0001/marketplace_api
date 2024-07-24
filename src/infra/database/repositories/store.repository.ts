@@ -7,12 +7,14 @@ import { UserEntity } from '@database/entities/user.entity';
 
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 import { IStoreCreateDTO } from '@domains/dtos/store/IStoreCreateDTO';
+import { IStoreUpdate } from '@domains/dtos/store/IStoreUpdate';
 
 @Injectable()
 export class StoreRepository implements IStoreRepository {
   constructor(
     @InjectRepository(StoreEntity) private storeEntity: Repository<StoreEntity>,
   ) {}
+
   async create(store: IStoreCreateDTO, user: UserEntity): Promise<StoreEntity> {
     const storeCreated = this.storeEntity.create(store);
 
@@ -77,5 +79,18 @@ export class StoreRepository implements IStoreRepository {
     store.users = [...store.users, ...users];
 
     await this.storeEntity.save(store);
+  }
+
+  async updateStore(store: IStoreUpdate): Promise<void> {
+    const findStore = await this.storeEntity.findOne({
+      where: {
+        id: store.storeId,
+      },
+    });
+
+    const { storeId, ...storeWithoutStoreId } = store;
+    Object.assign(findStore, storeWithoutStoreId);
+
+    await this.storeEntity.save(findStore);
   }
 }

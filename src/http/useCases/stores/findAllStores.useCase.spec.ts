@@ -1,7 +1,9 @@
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 import { IUserRepository } from '@domains/repositories/IUserRepository';
+
 import { storeRepositoryMock } from '@test/mocks/storeRepository.mock';
 import { MockUserRepository } from '@test/mocks/userRepository.mock';
+
 import { FindAllStoresUseCase } from './findAllStores.useCase';
 
 describe('find all user stores', () => {
