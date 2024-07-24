@@ -1,4 +1,5 @@
 import { IStoreCreateDTO } from '@domains/dtos/store/IStoreCreateDTO';
+import { IRoleRepository } from '@domains/repositories/IRoleRepository';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 import { IUserRepository } from '@domains/repositories/IUserRepository';
 import { ConflictException, Injectable } from '@nestjs/common';
@@ -8,6 +9,7 @@ export class CreateStoresUseCase {
   constructor(
     private storeRepository: IStoreRepository,
     private userRepository: IUserRepository,
+    private roleRepository: IRoleRepository,
   ) {}
 
   async execute(storeCreate: IStoreCreateDTO, email: string) {
@@ -19,6 +21,12 @@ export class CreateStoresUseCase {
       throw new ConflictException('Store already exists');
 
     const store = await this.storeRepository.create(storeCreate, user);
+    await this.roleRepository.create({
+      role: 'Admin',
+      user: user,
+      storeId: store.id,
+    });
+
     store.users.map((user) => delete user.password);
 
     return store;

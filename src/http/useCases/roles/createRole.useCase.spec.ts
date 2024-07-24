@@ -8,7 +8,7 @@ describe('createRole useCase', () => {
   let createRoleUseCase: CreateRoleUseCase;
 
   const role = {
-    role: RoleEnum.Admin,
+    role: 'Admin',
     storeId: '1',
   };
 

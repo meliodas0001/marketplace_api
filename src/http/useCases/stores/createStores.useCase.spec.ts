@@ -1,6 +1,7 @@
 import { storeRepositoryMock } from '@test/mocks/storeRepository.mock';
 import { CreateStoresUseCase } from './createStores.useCase';
 import { MockUserRepository } from '@test/mocks/userRepository.mock';
+import { RoleRepositoryMock } from '@test/mocks/roleRepository.mock';
 
 describe('createStores useCase', () => {
   let createStoresUseCase: CreateStoresUseCase;
@@ -39,6 +40,7 @@ describe('createStores useCase', () => {
     createStoresUseCase = new CreateStoresUseCase(
       storeRepositoryMock,
       MockUserRepository,
+      RoleRepositoryMock,
     );
   });
 

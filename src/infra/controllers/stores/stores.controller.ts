@@ -38,6 +38,7 @@ import { User } from '@decorators/user.decorator';
 import { Roles } from '@decorators/roles.decorator';
 import { IStoreUpdate } from '@domains/dtos/store/IStoreUpdate';
 import { DeleteStoreUseCase } from '@useCases/stores/deleteStoreUseCase';
+import { deleteStoreSchema } from '@validators/schemas/stores/deleteStoreSchema';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -122,11 +123,11 @@ export class StoresController {
     res.status(200).send();
   }
 
-  @Delete()
+  @Delete('delete')
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin)
   async deleteStore(
-    @Body() body: { storeId: string },
+    @Body(new ValidatorPipe(deleteStoreSchema)) body: { storeId: string },
     @User() user: IPayload,
     @Res() res: Response,
   ) {
