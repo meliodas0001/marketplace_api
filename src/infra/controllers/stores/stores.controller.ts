@@ -29,9 +29,11 @@ import { RoleEnum } from '@domains/enums/RoleEnum';
 import {
   findStoreUsersSchema,
   IFindStoreUsersSchema,
-} from '@validators/schemas/users/findStoreUsersSchema';
+} from '@validators/schemas/stores/findStoreUsersSchema';
 import { FindAllStoresUseCase } from '@useCases/stores/findAllStores.useCase';
 import { AddUsersToStoreUseCase } from '@useCases/stores/addUsersToStore.useCase';
+import { IAddUsersToStore } from '@domains/dtos/store/IAddUsersToStore';
+import { AddUsersToStoreSchema } from '@validators/schemas/stores/addUsersToStoreSchema';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -83,8 +85,12 @@ export class StoresController {
   @Put('users')
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin, RoleEnum.Moderator)
-  async addUsers(@Body() body: any, @Res() res: Response) {
-    await this.addUsersToStoreUseCase.execute(body.storeId, body.usersIds);
+  async addUsers(
+    @Body(new ValidatorPipe(AddUsersToStoreSchema)) body: IAddUsersToStore,
+    @Res() res: Response,
+  ) {
+    const { storeId, usersIds } = body;
+    await this.addUsersToStoreUseCase.execute(storeId, usersIds);
 
     res.status(201).send();
   }
