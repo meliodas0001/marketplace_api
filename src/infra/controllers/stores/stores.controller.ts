@@ -22,6 +22,7 @@ import {
   findStoreUsersSchema,
   IFindStoreUsersSchema,
 } from '@validators/schemas/users/findStoreUsersSchema';
+import { FindAllStoresUseCase } from '@useCases/stores/findAllStores.useCase';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -29,6 +30,7 @@ export class StoresController {
   constructor(
     private createStoresUseCase: CreateStoresUseCase,
     private findStoreUsersUseCase: FindStoreUsersUseCase,
+    private findAllStoresUseCase: FindAllStoresUseCase,
   ) {}
 
   @Post()
@@ -47,7 +49,7 @@ export class StoresController {
     res.json(store).send();
   }
 
-  @Get()
+  @Get('users')
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin)
   async findUsers(
@@ -59,5 +61,12 @@ export class StoresController {
     const users = await this.findStoreUsersUseCase.execute(storeId);
 
     res.json(users).send();
+  }
+
+  @Get('all')
+  async findAll(@User() user: IPayload, @Res() res: Response) {
+    const stores = await this.findAllStoresUseCase.execute(user.id);
+
+    res.json(stores).send();
   }
 }

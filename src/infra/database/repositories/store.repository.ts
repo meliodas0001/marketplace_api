@@ -58,4 +58,12 @@ export class StoreRepository implements IStoreRepository {
       },
     });
   }
+
+  async findStoresByUserId(userId: string): Promise<StoreEntity[]> {
+    return await this.storeEntity
+      .createQueryBuilder('store')
+      .innerJoin('store.users', 'users')
+      .where('users.id = :userId', { userId })
+      .getMany();
+  }
 }

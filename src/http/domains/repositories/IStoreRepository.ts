@@ -10,4 +10,5 @@ export abstract class IStoreRepository {
   abstract findStoreById(id: string): Promise<StoreEntity>;
   abstract findStoreByOwnerId(ownerId: string): Promise<StoreEntity[]>;
   abstract findStoreUsers(storeId: string): Promise<any[]>;
+  abstract findStoresByUserId(userId: string): Promise<StoreEntity[]>;
 }
