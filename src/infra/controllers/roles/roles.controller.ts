@@ -2,19 +2,19 @@ import { Body, Controller, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { IPayload } from '@domains/dtos/users/IPayload';
+import { IRoleUpdate } from '@domains/dtos/roles/IRoleUpdate';
+import { RoleEnum } from '@domains/enums/RoleEnum';
 
 import { AuthGuard } from 'src/http/guards/auth.guard';
 import { User } from 'src/http/decorators/user.decorator';
 
-import { ValidatorPipe } from '@validators/validatorPipe';
-import { CreateRolesSchema } from '@validators/schemas/roles/createRolesSchema';
 import { RolesGuard } from '@guards/roles.guard';
 import { Roles } from '@decorators/roles.decorator';
-import { RoleEnum } from '@domains/enums/RoleEnum';
-import { UpdateRoleUseCase } from '@useCases/roles/updateRole.useCase';
-import { IRoleUpdate } from '@domains/dtos/roles/IRoleUpdate';
+
+import { ValidatorPipe } from '@validators/validatorPipe';
 import { UpdateRolesSchema } from '@validators/schemas/roles/updateRolesSchema';
 
+import { UpdateRoleUseCase } from '@useCases/roles/updateRole.useCase';
 @Controller('roles')
 @UseGuards(AuthGuard)
 export class RolesController {
