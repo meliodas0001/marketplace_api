@@ -73,7 +73,12 @@ export class CategoriesController {
     @Body(new ValidatorPipe(UpdateCategorySchema)) body: IUpdateCategory,
     @Res() res: Response,
   ) {
-    const category = await this.updateCategoryUseCase.execute(body);
+    const { name, storeId, updatedName } = body;
+    const category = await this.updateCategoryUseCase.execute({
+      name,
+      storeId,
+      updatedName,
+    });
 
     res.json(category).send();
   }

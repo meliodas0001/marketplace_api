@@ -8,6 +8,7 @@ export abstract class ICategoriesRepository {
     storeId: string,
   ): Promise<CategoriesEntity>;
   abstract updateCategoryName(
+    nameSearch: string,
     name: string,
     storeId: string,
   ): Promise<CategoriesEntity>;

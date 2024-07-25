@@ -8,6 +8,7 @@ describe('update category use case', () => {
   const updateCategory = {
     name: 'category',
     storeId: '1',
+    updatedName: 'new category',
   };
 
   beforeEach(() => {

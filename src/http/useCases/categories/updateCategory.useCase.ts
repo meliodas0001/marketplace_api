@@ -14,7 +14,7 @@ export class UpdateCategoryUseCase {
   ) {}
 
   async execute(updateCategory: IUpdateCategory): Promise<CategoriesEntity> {
-    const { name, storeId } = updateCategory;
+    const { name, storeId, updatedName } = updateCategory;
 
     const store = await this.storeRepository.findStoreById(storeId);
     if (!store) throw new UnauthorizedException('Store not found');
@@ -25,6 +25,10 @@ export class UpdateCategoryUseCase {
     );
     if (!category) throw new UnauthorizedException('Category not found');
 
-    return await this.categoriesRepository.updateCategoryName(name, storeId);
+    return await this.categoriesRepository.updateCategoryName(
+      name,
+      updatedName,
+      storeId,
+    );
   }
 }

@@ -28,11 +28,12 @@ export class CategoriesRepository implements ICategoriesRepository {
   }
 
   async updateCategoryName(
+    nameSearch: string,
     name: string,
     storeId: string,
   ): Promise<CategoriesEntity> {
     const category = await this.categoriesEntity.findOne({
-      where: { name, storeId },
+      where: { name: nameSearch, storeId },
     });
 
     category.name = name;
