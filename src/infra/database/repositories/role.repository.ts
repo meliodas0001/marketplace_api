@@ -54,7 +54,9 @@ export class RoleRepository implements IRoleRepository {
   ): Promise<void> {
     const findRole = await this.rolesEntity.findOne({
       where: {
-        id: userId,
+        user: {
+          id: userId,
+        },
         storeId: storeId,
       },
     });
