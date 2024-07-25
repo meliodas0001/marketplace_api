@@ -46,4 +46,20 @@ export class RoleRepository implements IRoleRepository {
 
     return role;
   }
+
+  async updateRole(
+    userId: string,
+    storeId: string,
+    role: string,
+  ): Promise<void> {
+    const findRole = await this.rolesEntity.findOne({
+      where: {
+        id: userId,
+        storeId: storeId,
+      },
+    });
+
+    findRole.role = role;
+    await this.rolesEntity.save(findRole);
+  }
 }

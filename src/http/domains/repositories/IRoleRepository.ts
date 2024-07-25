@@ -6,4 +6,9 @@ export abstract class IRoleRepository {
   abstract create(RoleCreate: IRoleCreate): Promise<RolesEntity>;
   abstract createRoles(users: UserEntity[], storeId: string): Promise<void>;
   abstract findRoleByUserId(userId: string): Promise<RolesEntity[]>;
+  abstract updateRole(
+    userId: string,
+    storeId: string,
+    role: string,
+  ): Promise<void>;
 }
