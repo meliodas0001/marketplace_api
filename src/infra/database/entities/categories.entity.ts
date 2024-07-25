@@ -11,6 +11,9 @@ export class CategoriesEntity {
   @Column()
   name: string;
 
+  @Column()
+  storeId: string;
+
   @ManyToMany(() => ProductsEntity)
   products: ProductsEntity[];
 

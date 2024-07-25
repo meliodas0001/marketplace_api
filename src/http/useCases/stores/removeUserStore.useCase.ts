@@ -1,6 +1,5 @@
 import { IRoleRepository } from '@domains/repositories/IRoleRepository';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
-import { IUserRepository } from '@domains/repositories/IUserRepository';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 @Injectable()
