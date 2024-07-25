@@ -99,4 +99,34 @@ export class StoreRepository implements IStoreRepository {
       id: storeId,
     });
   }
+
+  async deleteUserFromStore(storeId: string, userId: string): Promise<void> {
+    const store = await this.storeEntity.findOne({
+      where: {
+        id: storeId,
+      },
+      relations: ['users'],
+    });
+
+    store.users = store.users.filter((user) => user.id !== userId);
+
+    await this.storeEntity.save(store);
+  }
+
+  async findUserByStore(
+    storeId: string,
+    userId: string,
+  ): Promise<UserEntity | null> {
+    const store = await this.storeEntity.findOne({
+      where: { id: storeId },
+      relations: ['users'],
+    });
+
+    if (store) {
+      const user = store.users.find((user) => user.id === userId);
+      return user || null;
+    }
+
+    return null;
+  }
 }

@@ -39,6 +39,8 @@ import { Roles } from '@decorators/roles.decorator';
 import { IStoreUpdate } from '@domains/dtos/store/IStoreUpdate';
 import { DeleteStoreUseCase } from '@useCases/stores/deleteStoreUseCase';
 import { deleteStoreSchema } from '@validators/schemas/stores/deleteStoreSchema';
+import { IRemoveUserStore } from '@domains/dtos/store/IRemoveUserStore';
+import { RemoveUserStoreUseCase } from '@useCases/stores/removeUserStore.useCase';
 
 @Controller('store')
 @UseGuards(AuthGuard)
@@ -50,6 +52,7 @@ export class StoresController {
     private addUsersToStoreUseCase: AddUsersToStoreUseCase,
     private updateStoreUseCase: UpdateStoreUseCase,
     private deleteStoreUseCase: DeleteStoreUseCase,
+    private removeUserStoreUseCase: RemoveUserStoreUseCase,
   ) {}
 
   @Post()
@@ -134,6 +137,18 @@ export class StoresController {
     const { storeId } = body;
 
     await this.deleteStoreUseCase.execute(storeId, user.id);
+
+    res.status(200).send();
+  }
+
+  @Delete('user')
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin)
+  async deleteUserFromStore(
+    @Body() body: IRemoveUserStore,
+    @Res() res: Response,
+  ) {
+    await this.removeUserStoreUseCase.execute(body.storeId, body.userId);
 
     res.status(200).send();
   }

@@ -25,8 +25,8 @@ export class StoreEntity {
   @ManyToMany(() => UserEntity)
   @JoinTable({
     name: 'store_users',
-    joinColumn: { name: 'user_id' },
-    inverseJoinColumn: { name: 'store_id' },
+    joinColumn: { name: 'store_id' },
+    inverseJoinColumn: { name: 'user_id' },
   })
   users: UserEntity[];
 

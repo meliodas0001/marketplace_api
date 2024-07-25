@@ -15,4 +15,9 @@ export abstract class IStoreRepository {
   abstract addUsersToStore(storeId: string, users: UserEntity[]): Promise<void>;
   abstract updateStore(store: IStoreUpdate): Promise<void>;
   abstract deleteStore(storeId: string): Promise<void>;
+  abstract deleteUserFromStore(storeId: string, userId: string): Promise<void>;
+  abstract findUserByStore(
+    storeId: string,
+    userId: string,
+  ): Promise<UserEntity | null>;
 }
