@@ -14,7 +14,7 @@ import { CreateCategorySchema } from '@validators/schemas/category/createCategor
 
 import { CreateCategoryUseCase } from '@useCases/categories/CreateCategory.useCase';
 
-@Controller()
+@Controller('categories')
 @UseGuards(AuthGuard)
 export class CategoriesController {
   constructor(private createCategoryUseCase: CreateCategoryUseCase) {}
