@@ -22,7 +22,10 @@ export class UpdateRoleUseCase {
     const findRole = await this.roleRepository.findRoleByUserId(userId);
     if (!findRole) throw new UnauthorizedException('Role not found');
 
-    if (findStore.ownerId != userId && role === 'admin')
+    if (
+      (findStore.ownerId != userId && role === 'admin') ||
+      findStore.ownerId === updUserId
+    )
       throw new UnauthorizedException('User not authorized');
 
     await this.roleRepository.updateRole(updUserId, storeId, role);
