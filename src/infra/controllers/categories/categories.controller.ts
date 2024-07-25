@@ -11,6 +11,7 @@ import { Response } from 'express';
 
 import { RoleEnum } from '@domains/enums/RoleEnum';
 import { ICreateCategory } from '@domains/dtos/categories/ICreateCategory';
+import { IUpdateCategory } from '@domains/dtos/categories/IUpdateCategory';
 
 import { Roles } from '@decorators/roles.decorator';
 import { RolesGuard } from '@guards/roles.guard';
@@ -20,6 +21,7 @@ import { AuthGuard } from '@guards/auth.guard';
 import { ValidatorPipe } from '@validators/validatorPipe';
 import { CreateCategorySchema } from '@validators/schemas/category/createCategorySchema';
 import { CategoriesListSchema } from '@validators/schemas/category/categoriesListSchema';
+import { UpdateCategorySchema } from '@validators/schemas/category/updateCategorySchema';
 
 import { CreateCategoryUseCase } from '@useCases/categories/CreateCategory.useCase';
 import { ListCategoriesUseCase } from '@useCases/categories/ListCategories.useCase';
@@ -62,7 +64,10 @@ export class CategoriesController {
   @Put()
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin, RoleEnum.Moderator)
-  async updateCategory(@Body() body: any, @Res() res: Response) {
+  async updateCategory(
+    @Body(new ValidatorPipe(UpdateCategorySchema)) body: IUpdateCategory,
+    @Res() res: Response,
+  ) {
     const category = await this.updateCategoryUseCase.execute(body);
 
     res.json(category).send();
