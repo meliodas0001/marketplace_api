@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   Put,
@@ -26,6 +27,8 @@ import { UpdateCategorySchema } from '@validators/schemas/category/updateCategor
 import { CreateCategoryUseCase } from '@useCases/categories/CreateCategory.useCase';
 import { ListCategoriesUseCase } from '@useCases/categories/ListCategories.useCase';
 import { UpdateCategoryUseCase } from '@useCases/categories/updateCategory.useCase';
+import { DeleteCategoryUseCase } from '@useCases/categories/deleteCategory.useCase';
+import { IDeleteCategory } from '@domains/dtos/categories/IDeleteCategory';
 
 @Controller('categories')
 @UseGuards(AuthGuard)
@@ -34,6 +37,7 @@ export class CategoriesController {
     private createCategoryUseCase: CreateCategoryUseCase,
     private listCategoriesUseCase: ListCategoriesUseCase,
     private updateCategoryUseCase: UpdateCategoryUseCase,
+    private deleteCategoryUseCase: DeleteCategoryUseCase,
   ) {}
 
   @Post()
@@ -71,5 +75,14 @@ export class CategoriesController {
     const category = await this.updateCategoryUseCase.execute(body);
 
     res.json(category).send();
+  }
+
+  @Delete()
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin, RoleEnum.Moderator)
+  async DeleteCategoryUseCase(@Body() body: IDeleteCategory, @Res() res: Response) {
+    await this.deleteCategoryUseCase.execute(body.name, body.storeId)
+
+    res.status(204).send()
   }
 }
