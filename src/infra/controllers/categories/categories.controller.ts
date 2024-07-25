@@ -13,6 +13,7 @@ import { Response } from 'express';
 import { RoleEnum } from '@domains/enums/RoleEnum';
 import { ICreateCategory } from '@domains/dtos/categories/ICreateCategory';
 import { IUpdateCategory } from '@domains/dtos/categories/IUpdateCategory';
+import { IDeleteCategory } from '@domains/dtos/categories/IDeleteCategory';
 
 import { Roles } from '@decorators/roles.decorator';
 import { RolesGuard } from '@guards/roles.guard';
@@ -23,13 +24,12 @@ import { ValidatorPipe } from '@validators/validatorPipe';
 import { CreateCategorySchema } from '@validators/schemas/category/createCategorySchema';
 import { CategoriesListSchema } from '@validators/schemas/category/categoriesListSchema';
 import { UpdateCategorySchema } from '@validators/schemas/category/updateCategorySchema';
+import { DeleteCategorySchema } from '@validators/schemas/category/deleteCategorySchema';
 
 import { CreateCategoryUseCase } from '@useCases/categories/CreateCategory.useCase';
 import { ListCategoriesUseCase } from '@useCases/categories/ListCategories.useCase';
 import { UpdateCategoryUseCase } from '@useCases/categories/updateCategory.useCase';
 import { DeleteCategoryUseCase } from '@useCases/categories/deleteCategory.useCase';
-import { IDeleteCategory } from '@domains/dtos/categories/IDeleteCategory';
-import { DeleteCategorySchema } from '@validators/schemas/category/deleteCategorySchema';
 
 @Controller('categories')
 @UseGuards(AuthGuard)
