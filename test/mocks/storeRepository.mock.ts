@@ -1,3 +1,4 @@
+import { UserEntity } from '@database/entities/user.entity';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 
 export const storeRepositoryMock: IStoreRepository = {
@@ -9,4 +10,6 @@ export const storeRepositoryMock: IStoreRepository = {
   addUsersToStore: jest.fn(),
   updateStore: jest.fn(),
   deleteStore: jest.fn(),
+  deleteUserFromStore: jest.fn(),
+  findUserByStore: jest.fn(),
 };
