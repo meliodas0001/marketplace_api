@@ -16,7 +16,14 @@ export class CategoriesRepository implements ICategoriesRepository {
     return category;
   }
 
-  listCategories(storeId: string): Promise<CategoriesEntity[]> {
-    return this.categoriesEntity.find({ where: { storeId } });
+  async listCategories(storeId: string): Promise<CategoriesEntity[]> {
+    return await this.categoriesEntity.find({ where: { storeId } });
+  }
+
+  async findCategoryByName(
+    name: string,
+    storeId: string,
+  ): Promise<CategoriesEntity> {
+    return await this.categoriesEntity.findOne({ where: { name, storeId } });
   }
 }
