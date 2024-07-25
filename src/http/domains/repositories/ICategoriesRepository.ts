@@ -7,6 +7,9 @@ export abstract class ICategoriesRepository {
     name: string,
     storeId: string,
   ): Promise<CategoriesEntity>;
-  abstract updateCategoryName(name: string, storeId: string): Promise<void>;
+  abstract updateCategoryName(
+    name: string,
+    storeId: string,
+  ): Promise<CategoriesEntity>;
   abstract deleteCategory(name: string, storeId: string): Promise<void>;
 }

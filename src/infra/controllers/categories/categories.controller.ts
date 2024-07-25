@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { Response } from 'express';
 
 import { RoleEnum } from '@domains/enums/RoleEnum';
@@ -15,6 +23,7 @@ import { CategoriesListSchema } from '@validators/schemas/category/categoriesLis
 
 import { CreateCategoryUseCase } from '@useCases/categories/CreateCategory.useCase';
 import { ListCategoriesUseCase } from '@useCases/categories/ListCategories.useCase';
+import { UpdateCategoryUseCase } from '@useCases/categories/updateCategory.useCase';
 
 @Controller('categories')
 @UseGuards(AuthGuard)
@@ -22,6 +31,7 @@ export class CategoriesController {
   constructor(
     private createCategoryUseCase: CreateCategoryUseCase,
     private listCategoriesUseCase: ListCategoriesUseCase,
+    private updateCategoryUseCase: UpdateCategoryUseCase,
   ) {}
 
   @Post()
@@ -40,8 +50,6 @@ export class CategoriesController {
   }
 
   @Get('list')
-  @UseGuards(RolesGuard)
-  @Roles(RoleEnum.Admin, RoleEnum.Moderator, RoleEnum.User)
   async listCategories(
     @Body(new ValidatorPipe(CategoriesListSchema)) body: { storeId: string },
     @Res() res: Response,
@@ -49,5 +57,14 @@ export class CategoriesController {
     const categories = await this.listCategoriesUseCase.execute(body.storeId);
 
     res.json(categories).send();
+  }
+
+  @Put()
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin, RoleEnum.Moderator)
+  async updateCategory(@Body() body: any, @Res() res: Response) {
+    const category = await this.updateCategoryUseCase.execute(body);
+
+    res.json(category).send();
   }
 }
