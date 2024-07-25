@@ -1,8 +1,6 @@
 import { Body, Controller, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
-import { CreateRoleUseCase } from '@useCases/roles/createRole.useCase';
-
 import { IPayload } from '@domains/dtos/users/IPayload';
 
 import { AuthGuard } from 'src/http/guards/auth.guard';
@@ -20,27 +18,7 @@ import { UpdateRolesSchema } from '@validators/schemas/roles/updateRolesSchema';
 @Controller('roles')
 @UseGuards(AuthGuard)
 export class RolesController {
-  constructor(
-    private createRoleUseCase: CreateRoleUseCase,
-    private updateRoleUseCase: UpdateRoleUseCase,
-  ) {}
-
-  @Post()
-  async create(
-    @Body(new ValidatorPipe(CreateRolesSchema)) body: any,
-    @User() user: IPayload,
-    @Res() res: Response,
-  ): Promise<void> {
-    const { storeId, role } = body;
-    const { email } = user;
-
-    const roles = await this.createRoleUseCase.execute(
-      { role, storeId },
-      email,
-    );
-
-    res.json({ roles }).send();
-  }
+  constructor(private updateRoleUseCase: UpdateRoleUseCase) {}
 
   @Put()
   @UseGuards(RolesGuard)
