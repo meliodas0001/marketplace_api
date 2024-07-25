@@ -26,4 +26,18 @@ export class CategoriesRepository implements ICategoriesRepository {
   ): Promise<CategoriesEntity> {
     return await this.categoriesEntity.findOne({ where: { name, storeId } });
   }
+
+  async updateCategoryName(name: string, storeId: string): Promise<void> {
+    const category = await this.categoriesEntity.findOne({
+      where: { name, storeId },
+    });
+
+    category.name = name;
+
+    await this.categoriesEntity.save(category);
+  }
+
+  async deleteCategory(name: string, storeId: string): Promise<void> {
+    await this.categoriesEntity.delete({ name, storeId });
+  }
 }
