@@ -64,4 +64,13 @@ export class RoleRepository implements IRoleRepository {
     findRole.role = role;
     await this.rolesEntity.save(findRole);
   }
+
+  async deleteRole(userId: string, storeId: string): Promise<void> {
+    await this.rolesEntity.delete({
+      user: {
+        id: userId,
+      },
+      storeId,
+    });
+  }
 }

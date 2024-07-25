@@ -5,4 +5,5 @@ export const RoleRepositoryMock: IRoleRepository = {
   findRoleByUserId: jest.fn(),
   createRoles: jest.fn(),
   updateRole: jest.fn(),
+  deleteRole: jest.fn(),
 };

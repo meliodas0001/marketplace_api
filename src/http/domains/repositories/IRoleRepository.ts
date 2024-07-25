@@ -11,4 +11,5 @@ export abstract class IRoleRepository {
     storeId: string,
     role: string,
   ): Promise<void>;
+  abstract deleteRole(userId: string, storeId: string): Promise<void>;
 }
