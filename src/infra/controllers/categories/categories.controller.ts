@@ -29,6 +29,7 @@ import { ListCategoriesUseCase } from '@useCases/categories/ListCategories.useCa
 import { UpdateCategoryUseCase } from '@useCases/categories/updateCategory.useCase';
 import { DeleteCategoryUseCase } from '@useCases/categories/deleteCategory.useCase';
 import { IDeleteCategory } from '@domains/dtos/categories/IDeleteCategory';
+import { DeleteCategorySchema } from '@validators/schemas/category/deleteCategorySchema';
 
 @Controller('categories')
 @UseGuards(AuthGuard)
@@ -80,9 +81,12 @@ export class CategoriesController {
   @Delete()
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin, RoleEnum.Moderator)
-  async DeleteCategoryUseCase(@Body() body: IDeleteCategory, @Res() res: Response) {
-    await this.deleteCategoryUseCase.execute(body.name, body.storeId)
+  async DeleteCategoryUseCase(
+    @Body(new ValidatorPipe(DeleteCategorySchema)) body: IDeleteCategory,
+    @Res() res: Response,
+  ) {
+    await this.deleteCategoryUseCase.execute(body.name, body.storeId);
 
-    res.status(204).send()
+    res.status(204).send();
   }
 }
