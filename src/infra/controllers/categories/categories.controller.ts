@@ -11,6 +11,7 @@ import { AuthGuard } from '@guards/auth.guard';
 
 import { ValidatorPipe } from '@validators/validatorPipe';
 import { CreateCategorySchema } from '@validators/schemas/category/createCategorySchema';
+import { CategoriesListSchema } from '@validators/schemas/category/categoriesListSchema';
 
 import { CreateCategoryUseCase } from '@useCases/categories/CreateCategory.useCase';
 import { ListCategoriesUseCase } from '@useCases/categories/ListCategories.useCase';
@@ -42,7 +43,7 @@ export class CategoriesController {
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin, RoleEnum.Moderator, RoleEnum.User)
   async listCategories(
-    @Body() body: { storeId: string },
+    @Body(new ValidatorPipe(CategoriesListSchema)) body: { storeId: string },
     @Res() res: Response,
   ) {
     const categories = await this.listCategoriesUseCase.execute(body.storeId);
