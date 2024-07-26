@@ -6,4 +6,5 @@ export const productsRepositoryMock: IProductsRepository = {
   delete: jest.fn(),
   findProductByName: jest.fn(),
   findProductById: jest.fn(),
+  findAllStoreProducts: jest.fn(),
 };

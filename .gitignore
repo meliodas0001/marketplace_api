@@ -1,5 +1,6 @@
 # compiled output
 .env
+todo.md
 /dist
 /node_modules
 /build

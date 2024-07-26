@@ -69,11 +69,20 @@ export class ProductsRepository implements IProductsRepository {
     pageSize: number,
   ): Promise<{ items: ProductsEntity[]; total: number }> {
     const [items, total] = await this.productsEntity.findAndCount({
+      relations: ['productsPrice'],
       where: {
         categories: {
           storeId,
         },
+        productsPrice: {
+          products: {
+            categories: {
+              storeId,
+            },
+          },
+        },
       },
+
       skip: (page - 1) * pageSize,
       take: pageSize,
     });

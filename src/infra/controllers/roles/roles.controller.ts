@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { IPayload } from '@domains/dtos/users/IPayload';
