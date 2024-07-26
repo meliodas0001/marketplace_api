@@ -8,6 +8,7 @@ import { RolesModule } from './infra/controllers/roles/roles.module';
 import { DataSource } from 'typeorm';
 import { StoresModule } from './infra/controllers/stores/stores.module';
 import { CategoriesModule } from './infra/controllers/categories/categories.module';
+import { ProductsModule } from './infra/controllers/products/products.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CategoriesModule } from './infra/controllers/categories/categories.modu
     RolesModule,
     StoresModule,
     CategoriesModule,
+    ProductsModule
   ],
 })
 export class AppModule {
