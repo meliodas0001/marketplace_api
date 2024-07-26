@@ -25,6 +25,8 @@ import { CreateProductSchema } from '@validators/schemas/products/createProductS
 import { UpdateProductSchema } from '@validators/schemas/products/updateProductSchema';
 import { FindAllStoreProductsUseCase } from '@useCases/products/findAllStoreProducts.useCase';
 import { IUpdateProductDTO } from '@domains/dtos/products/IUpdateProductDTO';
+import { FindAllStoreProductsSchema } from '@validators/schemas/products/findAllStoreProductsSchema';
+import { IFindAllStoreProducts } from '@domains/dtos/products/IFindAllStoreProducts';
 
 @Controller('products')
 @UseGuards(AuthGuard)
@@ -79,7 +81,11 @@ export class ProductsController {
   }
 
   @Get('all')
-  async findAll(@Body() body: any, @Res() res: Response) {
+  async findAll(
+    @Body(new ValidatorPipe(FindAllStoreProductsSchema))
+    body: IFindAllStoreProducts,
+    @Res() res: Response,
+  ) {
     const products = await this.findAllStoreProductsUseCase.execute(
       body.storeId,
       body.page,
