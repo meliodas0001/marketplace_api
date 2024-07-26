@@ -1,16 +1,18 @@
-import { ICreateProductDTO } from '@domains/dtos/products/ICreateProducts';
-import { ICategoriesRepository } from '@domains/repositories/ICategoriesRepository';
-import { IProductsPriceRepository } from '@domains/repositories/IProductsPriceRepository';
-import { IProductsRepository } from '@domains/repositories/IProductsRepository';
 import {
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { createProductMapper } from 'src/http/mappers/createProductMapper';
+
+import { IProductsPriceRepository } from '@domains/repositories/IProductsPriceRepository';
+import { ICategoriesRepository } from '@domains/repositories/ICategoriesRepository';
+import { IProductsRepository } from '@domains/repositories/IProductsRepository';
+import { ICreateProductDTO } from '@domains/dtos/products/ICreateProducts';
+
+import { createProductMapper } from '@mappers/createProductMapper';
 
 @Injectable()
-export class createProductUseCase {
+export class CreateProductsUseCase {
   constructor(
     private productRepository: IProductsRepository,
     private productsPriceRepository: IProductsPriceRepository,

@@ -19,7 +19,8 @@
       "@useCases/*": ["./src/http/useCases/*"],
       "@test/*": ["./test/*"],
       "@decorators/*": ["./src/http/decorators/*"],
-      "@guards/*": ["./src/http/guards/*"]
+      "@guards/*": ["./src/http/guards/*"],
+      "@mappers/*": ["./src/http/mappers/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

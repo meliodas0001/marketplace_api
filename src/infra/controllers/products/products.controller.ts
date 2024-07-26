@@ -8,12 +8,12 @@ import { RoleEnum } from '@domains/enums/RoleEnum';
 import { AuthGuard } from '@guards/auth.guard';
 import { RolesGuard } from '@guards/roles.guard';
 import { ICreateProductDTO } from '@domains/dtos/products/ICreateProducts';
-import { createProductUseCase } from '@useCases/products/createProduct.useCase';
+import { CreateProductsUseCase } from '@useCases/products/createProduct.useCase';
 
 @Controller('products')
 @UseGuards(AuthGuard)
 export class ProductsController {
-  constructor(private createProductsUseCase: createProductUseCase) {}
+  constructor(private createProductsUseCase: CreateProductsUseCase) {}
 
   @Post()
   @UseGuards(RolesGuard)

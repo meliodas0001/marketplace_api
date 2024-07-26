@@ -3,10 +3,10 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@database/database.module';
 
 import { ProductsController } from './products.controller';
-import { createProductUseCase } from '@useCases/products/createProduct.useCase';
+import { CreateProductsUseCase } from '@useCases/products/createProduct.useCase';
 
 @Module({
-  providers: [createProductUseCase],
+  providers: [CreateProductsUseCase],
   controllers: [ProductsController],
   imports: [DatabaseModule],
 })
