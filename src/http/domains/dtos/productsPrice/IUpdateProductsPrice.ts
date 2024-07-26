@@ -1,5 +1,5 @@
 export interface IUpdateProductsPrice {
   id: string;
-  price: number;
-  currency: string;
+  amount?: number;
+  currency?: string;
 }

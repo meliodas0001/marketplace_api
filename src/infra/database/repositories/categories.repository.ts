@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CategoriesEntity } from '@database/entities/categories.entity';
 import { ICategoriesRepository } from '@domains/repositories/ICategoriesRepository';
 
@@ -44,5 +44,11 @@ export class CategoriesRepository implements ICategoriesRepository {
 
   async deleteCategory(name: string, storeId: string): Promise<void> {
     await this.categoriesEntity.delete({ name, storeId });
+  }
+
+  async findCategoriesByIds(ids: string[]): Promise<CategoriesEntity[]> {
+    return await this.categoriesEntity.findBy({
+      id: In(ids),
+    });
   }
 }

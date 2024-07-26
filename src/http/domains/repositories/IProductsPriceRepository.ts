@@ -6,6 +6,8 @@ export abstract class IProductsPriceRepository {
   abstract create(
     productsPrice: ICreateProductsPrice,
   ): Promise<ProductsPriceEntity>;
-  abstract update(productsPrice: IUpdateProductsPrice): Promise<void>;
+  abstract update(
+    productsPrice: IUpdateProductsPrice,
+  ): Promise<ProductsPriceEntity>;
   abstract delete(id: string): Promise<void>;
 }

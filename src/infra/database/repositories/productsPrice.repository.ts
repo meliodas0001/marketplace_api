@@ -21,6 +21,7 @@ export class ProductsPriceRepository implements IProductsPriceRepository {
     const productsPriceCreated = this.productsPriceEntity.create({
       currency,
       amount: price,
+      products: products,
     });
 
     await this.productsPriceEntity.save(productsPriceCreated);
@@ -29,16 +30,26 @@ export class ProductsPriceRepository implements IProductsPriceRepository {
     return productsPriceCreated;
   }
 
-  async update(productsPrice: IUpdateProductsPrice): Promise<void> {
-    const productsPriceFind = await this.productsPriceEntity.findOne({
+  async update(
+    productsPrice: IUpdateProductsPrice,
+  ): Promise<ProductsPriceEntity> {
+    const findProductPrice = await this.productsPriceEntity.findOne({
       where: {
-        id: productsPrice.id,
+        products: {
+          id: productsPrice.id,
+        },
       },
     });
 
-    const updatedProductsPrice = { ...productsPriceFind, ...productsPrice };
+    const { id, ...updateProductsPrice } = productsPrice;
 
-    await this.productsPriceEntity.save(updatedProductsPrice);
+    const updatedProductPrice = {
+      ...findProductPrice,
+      ...updateProductsPrice,
+    };
+
+    await this.productsPriceEntity.save(updatedProductPrice);
+    return updatedProductPrice;
   }
 
   async delete(id: string): Promise<void> {

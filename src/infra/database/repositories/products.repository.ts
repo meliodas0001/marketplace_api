@@ -5,7 +5,8 @@ import { Repository } from 'typeorm';
 import { ProductsEntity } from '@database/entities/products.entity';
 import { IProductsRepository } from '@domains/repositories/IProductsRepository';
 import { ICreateProduct } from '@domains/dtos/products/ICreateProducts';
-import { IUpdateProducts } from '@domains/dtos/products/IUpdateProducts';
+import { IUpdateProduct } from '@domains/dtos/products/IUpdateProduct';
+import { updateCategories } from './utils/updateCategories';
 
 @Injectable()
 export class ProductsRepository implements IProductsRepository {
@@ -24,23 +25,26 @@ export class ProductsRepository implements IProductsRepository {
 
     return productCreated;
   }
-  async update(product: IUpdateProducts): Promise<ProductsEntity> {
-    const { id, name, description } = product;
+
+  async update(product: IUpdateProduct): Promise<ProductsEntity> {
+    const { id, name, description, categories } = product;
 
     const productFind = await this.productsEntity.findOne({
+      relations: ['categories'],
       where: {
         id,
       },
     });
 
+    productFind.categories = updateCategories(
+      productFind.categories,
+      categories,
+    );
+
     const updatedProduct = { ...productFind, name, description };
-
     await this.productsEntity.save(updatedProduct);
-    return updatedProduct;
-  }
 
-  async delete(id: string): Promise<void> {
-    await this.productsEntity.delete(id);
+    return { ...product, ...updatedProduct };
   }
 
   async findProductByName(name: string): Promise<ProductsEntity> {
@@ -49,5 +53,17 @@ export class ProductsRepository implements IProductsRepository {
         name,
       },
     });
+  }
+
+  async findProductById(id: string): Promise<ProductsEntity> {
+    return await this.productsEntity.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.productsEntity.delete(id);
   }
 }

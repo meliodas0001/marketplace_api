@@ -13,4 +13,5 @@ export abstract class ICategoriesRepository {
     storeId: string,
   ): Promise<CategoriesEntity>;
   abstract deleteCategory(name: string, storeId: string): Promise<void>;
+  abstract findCategoriesByIds(ids: string[]): Promise<CategoriesEntity[]>;
 }

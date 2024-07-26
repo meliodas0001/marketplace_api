@@ -38,11 +38,7 @@ export class CreateProductsUseCase {
       category: findCategory,
     });
 
-    const {
-      amount,
-      currency: productCurrency,
-      id,
-    } = await this.productsPriceRepository.create({
+    const { id, ...productsPrice } = await this.productsPriceRepository.create({
       currency,
       price,
       products: productCreated,
@@ -50,9 +46,7 @@ export class CreateProductsUseCase {
 
     return createProductMapper({
       ...productCreated,
-      price: amount,
-      currency: productCurrency,
-      id,
+      ...productsPrice,
     });
   }
 }
