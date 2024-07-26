@@ -4,6 +4,7 @@ import { IProductsRepository } from '@domains/repositories/IProductsRepository';
 import { IProductsPriceRepository } from '@domains/repositories/IProductsPriceRepository';
 import { IUpdateProductDTO } from '@domains/dtos/products/IUpdateProductDTO';
 import { ICategoriesRepository } from '@domains/repositories/ICategoriesRepository';
+import { updateProductMapper } from '@mappers/updateProductMapper';
 
 @Injectable()
 export class UpdateProductUseCase {
@@ -40,8 +41,6 @@ export class UpdateProductUseCase {
       id: productUpdate.id,
     });
 
-    console.log(updateProduct);
-
-    return { ...updatePrice, ...updateProduct };
+    return updateProductMapper({ ...updateProduct, ...updatePrice });
   }
 }

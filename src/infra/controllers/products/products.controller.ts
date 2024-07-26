@@ -11,6 +11,8 @@ import { ICreateProductDTO } from '@domains/dtos/products/ICreateProducts';
 import { CreateProductsUseCase } from '@useCases/products/createProduct.useCase';
 import { UpdateProductUseCase } from '@useCases/products/updateProduct.useCase';
 import { IUpdateProductsPrice } from '@domains/dtos/productsPrice/IUpdateProductsPrice';
+import { ValidatorPipe } from '@validators/validatorPipe';
+import { CreateProductSchema } from '@validators/schemas/products/createProductSchema';
 
 @Controller('products')
 @UseGuards(AuthGuard)
@@ -23,7 +25,10 @@ export class ProductsController {
   @Post()
   @UseGuards(RolesGuard)
   @Roles(RoleEnum.Admin, RoleEnum.Moderator)
-  async create(@Body() body: ICreateProductDTO, @Res() res: Response) {
+  async create(
+    @Body(new ValidatorPipe(CreateProductSchema)) body: ICreateProductDTO,
+    @Res() res: Response,
+  ) {
     const productCreated = await this.createProductsUseCase.execute(body);
 
     res.json(productCreated).send();

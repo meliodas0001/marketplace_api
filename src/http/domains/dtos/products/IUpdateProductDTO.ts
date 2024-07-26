@@ -1,5 +1,5 @@
 export interface IUpdateProductDTO {
-  id: string; // ID DO PRODUTO
+  id: string;
   storeId: string;
   name?: string;
   description?: string;
@@ -8,5 +8,5 @@ export interface IUpdateProductDTO {
   productPrice: {
     currency?: string;
     amount?: number;
-  }; // IUpdateProductsPrice
+  };
 }
