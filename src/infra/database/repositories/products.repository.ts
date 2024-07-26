@@ -18,6 +18,8 @@ export class ProductsRepository implements IProductsRepository {
     const { description, name } = product;
 
     const productCreated = this.productsEntity.create({ description, name });
+    productCreated.categories = [product.category];
+
     await this.productsEntity.save(productCreated);
 
     return productCreated;
@@ -39,5 +41,13 @@ export class ProductsRepository implements IProductsRepository {
 
   async delete(id: string): Promise<void> {
     await this.productsEntity.delete(id);
+  }
+
+  async findProductByName(name: string): Promise<ProductsEntity> {
+    return await this.productsEntity.findOne({
+      where: {
+        name,
+      },
+    });
   }
 }

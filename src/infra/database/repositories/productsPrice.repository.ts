@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 
 import { ProductsPriceEntity } from '@database/entities/productsPrice.entity';
 import { IProductsPriceRepository } from '@domains/repositories/IProductsPriceRepository';
+import { ICreateProductsPrice } from '@domains/dtos/productsPrice/ICreateProductsPrice';
+import { IUpdateProductsPrice } from '@domains/dtos/productsPrice/IUpdateProductsPrice';
 
 @Injectable()
 export class ProductsPriceRepository implements IProductsPriceRepository {
@@ -12,17 +14,25 @@ export class ProductsPriceRepository implements IProductsPriceRepository {
     private productsPriceEntity: Repository<ProductsPriceEntity>,
   ) {}
 
-  async create(productsPrice: ICreateProductsPrice): Promise<void> {
-    const productsPriceCreated = this.productsPriceEntity.create(productsPrice);
+  async create(
+    productsPrice: ICreateProductsPrice,
+  ): Promise<ProductsPriceEntity> {
+    const { currency, price, products } = productsPrice;
+    const productsPriceCreated = this.productsPriceEntity.create({
+      currency,
+      amount: price,
+    });
 
     await this.productsPriceEntity.save(productsPriceCreated);
+    productsPriceCreated.products = productsPrice.products;
+
+    return productsPriceCreated;
   }
-  async update(productsPrice: ICreateProductsPrice): Promise<void> {
+
+  async update(productsPrice: IUpdateProductsPrice): Promise<void> {
     const productsPriceFind = await this.productsPriceEntity.findOne({
       where: {
-        products: {
-          id: productsPrice.productId,
-        },
+        id: productsPrice.id,
       },
     });
 

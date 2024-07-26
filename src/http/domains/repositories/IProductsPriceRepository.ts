@@ -1,5 +1,11 @@
+import { ProductsPriceEntity } from '@database/entities/productsPrice.entity';
+import { ICreateProductsPrice } from '@domains/dtos/productsPrice/ICreateProductsPrice';
+import { IUpdateProductsPrice } from '@domains/dtos/productsPrice/IUpdateProductsPrice';
+
 export abstract class IProductsPriceRepository {
-  abstract create(productsPrice: ICreateProductsPrice): Promise<void>;
-  abstract update(productsPrice: ICreateProductsPrice): Promise<void>;
+  abstract create(
+    productsPrice: ICreateProductsPrice,
+  ): Promise<ProductsPriceEntity>;
+  abstract update(productsPrice: IUpdateProductsPrice): Promise<void>;
   abstract delete(id: string): Promise<void>;
 }

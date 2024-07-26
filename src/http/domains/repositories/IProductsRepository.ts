@@ -6,4 +6,5 @@ export abstract class IProductsRepository {
   abstract create(product: ICreateProduct): Promise<ProductsEntity>;
   abstract update(product: IUpdateProducts): Promise<ProductsEntity>;
   abstract delete(id: string): Promise<void>;
+  abstract findProductByName(name: string): Promise<ProductsEntity>;
 }
