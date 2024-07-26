@@ -9,15 +9,18 @@ import { IUserRepository } from '@domains/repositories/IUserRepository';
 import { IRoleRepository } from '@domains/repositories/IRoleRepository';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 import { ICategoriesRepository } from '@domains/repositories/ICategoriesRepository';
+import { IProductsPriceRepository } from '@domains/repositories/IProductsPriceRepository';
+import { IProductsRepository } from '@domains/repositories/IProductsRepository';
 
 import { UserRepository } from '@repositories/user.repository';
-import { RoleRepository } from './repositories/role.repository';
-import { StoreRepository } from './repositories/store.repository';
-import { CategoriesRepository } from './repositories/categories.repository';
-import { CategoriesEntity } from './entities/categories.entity';
-import { ProductsEntity } from './entities/products.entity';
-import { IProductsRepository } from '@domains/repositories/IProductsRepository';
-import { ProductsRepository } from './repositories/products.repository';
+import { RoleRepository } from '@repositories/role.repository';
+import { StoreRepository } from '@repositories/store.repository';
+import { CategoriesRepository } from '@repositories/categories.repository';
+import { CategoriesEntity } from '@entities/categories.entity';
+import { ProductsEntity } from '@entities/products.entity';
+import { ProductsRepository } from '@repositories/products.repository';
+import { ProductsPriceEntity } from '@entities/productsPrice.entity';
+import { ProductsPriceRepository } from '@repositories/productsPrice.repository';
 
 @Module({
   imports: [
@@ -27,6 +30,7 @@ import { ProductsRepository } from './repositories/products.repository';
       StoreEntity,
       CategoriesEntity,
       ProductsEntity,
+      ProductsPriceEntity,
     ]),
   ],
   providers: [
@@ -50,6 +54,10 @@ import { ProductsRepository } from './repositories/products.repository';
       provide: IProductsRepository,
       useClass: ProductsRepository,
     },
+    {
+      provide: IProductsPriceRepository,
+      useClass: ProductsPriceRepository,
+    },
   ],
   exports: [
     IUserRepository,
@@ -57,6 +65,7 @@ import { ProductsRepository } from './repositories/products.repository';
     IStoreRepository,
     ICategoriesRepository,
     IProductsRepository,
+    IProductsPriceRepository,
   ],
 })
 export class DatabaseModule {}

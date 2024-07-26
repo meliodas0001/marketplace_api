@@ -8,7 +8,6 @@ import {
   JoinTable,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { ImagesEntity } from './images.entity';
 import { ProductsPriceEntity } from './productsPrice.entity';
 import { CategoriesEntity } from './categories.entity';
 
@@ -22,9 +21,6 @@ export class ProductsEntity {
 
   @Column()
   description: string;
-
-  @OneToMany(() => ImagesEntity, (images) => images.products)
-  images?: ImagesEntity[];
 
   @OneToOne(
     () => ProductsPriceEntity,
