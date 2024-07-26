@@ -8,4 +8,9 @@ export abstract class IProductsRepository {
   abstract delete(id: string): Promise<void>;
   abstract findProductByName(name: string): Promise<ProductsEntity>;
   abstract findProductById(id: string): Promise<ProductsEntity>;
+  abstract findAllStoreProducts(
+    storeId: string,
+    page: number,
+    pageSize: number,
+  ): Promise<{ items: ProductsEntity[]; total: number }>;
 }

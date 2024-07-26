@@ -63,6 +63,24 @@ export class ProductsRepository implements IProductsRepository {
     });
   }
 
+  async findAllStoreProducts(
+    storeId: string,
+    page: number,
+    pageSize: number,
+  ): Promise<{ items: ProductsEntity[]; total: number }> {
+    const [items, total] = await this.productsEntity.findAndCount({
+      where: {
+        categories: {
+          storeId,
+        },
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+
+    return { items, total };
+  }
+
   async delete(id: string): Promise<void> {
     await this.productsEntity.delete(id);
   }

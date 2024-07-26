@@ -18,6 +18,7 @@ export class ProductsPriceRepository implements IProductsPriceRepository {
     productsPrice: ICreateProductsPrice,
   ): Promise<ProductsPriceEntity> {
     const { currency, price, products } = productsPrice;
+
     const productsPriceCreated = this.productsPriceEntity.create({
       currency,
       amount: price,
