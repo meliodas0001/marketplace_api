@@ -15,6 +15,9 @@ import { RoleRepository } from './repositories/role.repository';
 import { StoreRepository } from './repositories/store.repository';
 import { CategoriesRepository } from './repositories/categories.repository';
 import { CategoriesEntity } from './entities/categories.entity';
+import { ProductsEntity } from './entities/products.entity';
+import { IProductsRepository } from '@domains/repositories/IProductsRepository';
+import { ProductsRepository } from './repositories/products.repository';
 
 @Module({
   imports: [
@@ -23,6 +26,7 @@ import { CategoriesEntity } from './entities/categories.entity';
       RolesEntity,
       StoreEntity,
       CategoriesEntity,
+      ProductsEntity,
     ]),
   ],
   providers: [
@@ -42,12 +46,17 @@ import { CategoriesEntity } from './entities/categories.entity';
       provide: ICategoriesRepository,
       useClass: CategoriesRepository,
     },
+    {
+      provide: IProductsRepository,
+      useClass: ProductsRepository,
+    },
   ],
   exports: [
     IUserRepository,
     IRoleRepository,
     IStoreRepository,
     ICategoriesRepository,
+    IProductsRepository,
   ],
 })
 export class DatabaseModule {}
