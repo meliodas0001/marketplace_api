@@ -1,3 +1,4 @@
+import { CategoriesEntity } from '@database/entities/categories.entity';
 import { ICategoriesRepository } from '@domains/repositories/ICategoriesRepository';
 
 export const categoriesRepositoryMock: ICategoriesRepository = {
@@ -6,4 +7,5 @@ export const categoriesRepositoryMock: ICategoriesRepository = {
   findCategoryByName: jest.fn(),
   updateCategoryName: jest.fn(),
   deleteCategory: jest.fn(),
+  findCategoriesByIds: jest.fn(),
 };
