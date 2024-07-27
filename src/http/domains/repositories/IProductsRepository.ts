@@ -13,4 +13,10 @@ export abstract class IProductsRepository {
     page: number,
     pageSize: number,
   ): Promise<{ items: ProductsEntity[]; total: number }>;
+  abstract findProductByCategory(
+    category: string,
+    storeId: string,
+    page: number,
+    pageSize: number,
+  ): Promise<{ items: ProductsEntity[]; total: number }>;
 }

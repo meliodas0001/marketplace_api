@@ -90,6 +90,35 @@ export class ProductsRepository implements IProductsRepository {
     return { items, total };
   }
 
+  async findProductByCategory(
+    category: string,
+    storeId: string,
+    page: number,
+    pageSize: number,
+  ): Promise<{ items: ProductsEntity[]; total: number }> {
+    const [items, total] = await this.productsEntity.findAndCount({
+      relations: ['productsPrice'],
+      where: {
+        categories: {
+          name: category,
+          storeId,
+        },
+        productsPrice: {
+          products: {
+            categories: {
+              name: category,
+              storeId,
+            },
+          },
+        },
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+
+    return { items, total };
+  }
+
   async delete(id: string): Promise<void> {
     await this.productsEntity.delete(id);
   }

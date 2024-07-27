@@ -27,6 +27,7 @@ import { FindAllStoreProductsUseCase } from '@useCases/products/findAllStoreProd
 import { IUpdateProductDTO } from '@domains/dtos/products/IUpdateProductDTO';
 import { FindAllStoreProductsSchema } from '@validators/schemas/products/findAllStoreProductsSchema';
 import { IFindAllStoreProducts } from '@domains/dtos/products/IFindAllStoreProducts';
+import { FindProductsByCategory } from '@useCases/products/findProductsByCategory.useCase';
 
 @Controller('products')
 @UseGuards(AuthGuard)
@@ -35,6 +36,7 @@ export class ProductsController {
     private createProductsUseCase: CreateProductsUseCase,
     private updateProductsUseCase: UpdateProductUseCase,
     private findAllStoreProductsUseCase: FindAllStoreProductsUseCase,
+    private findProductByCategoryUseCase: FindProductsByCategory,
   ) {}
 
   @Post()
@@ -90,6 +92,20 @@ export class ProductsController {
       body.storeId,
       body.page,
       body.pageSize,
+    );
+
+    res.json(products).send();
+  }
+
+  @Get('category/all')
+  async findByCategory(@Body() body: any, @Res() res: Response) {
+    const { categoryName, storeId, page, pageSize } = body;
+
+    const products = await this.findProductByCategoryUseCase.execute(
+      categoryName,
+      storeId,
+      page,
+      pageSize,
     );
 
     res.json(products).send();
