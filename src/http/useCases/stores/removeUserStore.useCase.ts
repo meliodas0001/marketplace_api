@@ -1,6 +1,10 @@
 import { IRoleRepository } from '@domains/repositories/IRoleRepository';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 @Injectable()
 export class RemoveUserStoreUseCase {
@@ -12,7 +16,7 @@ export class RemoveUserStoreUseCase {
   async execute(storeId: string, userId: string): Promise<void> {
     const store = await this.storeRepository.findStoreById(storeId);
 
-    if (!store) throw new UnauthorizedException('Store not found');
+    if (!store) throw new NotFoundException('Store not found');
     if (store.ownerId === userId)
       throw new UnauthorizedException(
         "You can't remove the owner of the store",
@@ -24,7 +28,7 @@ export class RemoveUserStoreUseCase {
     );
 
     if (!findUserByStore)
-      throw new UnauthorizedException('User not found in store');
+      throw new NotFoundException('User not found in store');
 
     await this.roleRepository.deleteRole(userId, storeId);
     await this.storeRepository.deleteUserFromStore(storeId, userId);

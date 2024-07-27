@@ -1,6 +1,10 @@
 import { IUsersStore } from '@domains/dtos/store/IUsersStore';
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 @Injectable()
 export class FindStoreUsersUseCase {
@@ -9,7 +13,7 @@ export class FindStoreUsersUseCase {
   async execute(storeId: string): Promise<IUsersStore[]> {
     const store = await this.storeRepository.findStoreUsers(storeId);
 
-    if (!store) throw new UnauthorizedException('Store not found');
+    if (!store) throw new NotFoundException('Store not found');
 
     return store;
   }

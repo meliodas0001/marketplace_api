@@ -1,5 +1,9 @@
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 @Injectable()
 export class DeleteStoreUseCase {
@@ -8,7 +12,7 @@ export class DeleteStoreUseCase {
   async execute(storeId: string, userId: string): Promise<void> {
     const store = await this.storeRepository.findStoreById(storeId);
 
-    if (!store) throw new UnauthorizedException('Store not found');
+    if (!store) throw new NotFoundException('Store not found');
 
     if (store.ownerId !== userId)
       throw new UnauthorizedException('User not authorized');

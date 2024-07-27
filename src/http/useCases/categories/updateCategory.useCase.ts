@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { CategoriesEntity } from '@database/entities/categories.entity';
 
@@ -17,13 +21,19 @@ export class UpdateCategoryUseCase {
     const { name, storeId, updatedName } = updateCategory;
 
     const store = await this.storeRepository.findStoreById(storeId);
-    if (!store) throw new UnauthorizedException('Store not found');
+    if (!store) throw new NotFoundException('Store not found');
 
     const category = await this.categoriesRepository.findCategoryByName(
       name,
       storeId,
     );
-    if (!category) throw new UnauthorizedException('Category not found');
+    if (!category) throw new NotFoundException('Category not found');
+
+    const categoryNameUpdate =
+      await this.categoriesRepository.findCategoryByName(updatedName, storeId);
+
+    if (categoryNameUpdate)
+      throw new ConflictException('You already have a category with this name');
 
     return await this.categoriesRepository.updateCategoryName(
       name,

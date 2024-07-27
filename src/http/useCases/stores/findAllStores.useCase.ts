@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
 import { IUserRepository } from '@domains/repositories/IUserRepository';
@@ -13,7 +17,7 @@ export class FindAllStoresUseCase {
   async execute(userId: string) {
     const user = await this.userRepository.findById(userId);
 
-    if (!user) throw new UnauthorizedException('User not found');
+    if (!user) throw new NotFoundException('User not found');
 
     return await this.storeRepository.findStoresByUserId(userId);
   }
