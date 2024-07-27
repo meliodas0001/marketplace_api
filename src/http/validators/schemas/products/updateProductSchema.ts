@@ -9,7 +9,7 @@ export const UpdateProductSchema = Joi.object<IUpdateProductDTO>({
   categoriesIds: Joi.array().items(Joi.string()).required(),
 
   productPrice: Joi.object({
-    currency: Joi.string().optional(),
+    currency: Joi.string().equal('BRL', 'EUR', 'USD').optional(),
     amount: Joi.number().optional(),
   }).required(),
 });

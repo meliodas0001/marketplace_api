@@ -6,6 +6,6 @@ export const CreateProductSchema = Joi.object<ICreateProductDTO>({
   description: Joi.string().required(),
   category: Joi.string().required(),
   price: Joi.number().required(),
-  currency: Joi.string().required(),
+  currency: Joi.string().equal('BRL', 'EUR', 'USD').required(),
   storeId: Joi.string().required(),
 });
