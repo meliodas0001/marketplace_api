@@ -46,6 +46,100 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/CreateStore'
+        '401':
+          description: 'Unauthorized'
+        '409':
+          description: 'Conflict'
+  /store/users:
+    get:
+      tags:
+        - 'Store'
+      summary: 'Get all users in a store'
+      description: 'Get all users in a store'
+      requestBody:
+        $ref: '#/components/requestBodies/GetStoreUsers'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/GetStoreUsers'
+        '401':
+          description: 'Unauthorized'
+        '409':
+          description: 'Conflict'
+
+    put:
+      tags:
+        - 'Store'
+      summary: 'Add a user to a store'
+      description: 'Add a user to a store'
+      requestBody:
+        $ref: '#/components/requestBodies/AddUserToStore'
+      responses:
+        '200':
+          description: 'Ok'
+        '401':
+          description: 'Unauthorized'
+        '409':
+          description: 'Conflict'
+
+  /store/all:
+    get:
+      tags:
+        - 'Store'
+      summary: 'Get all user stores'
+      description: 'Get all user stores'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/GetAllUserStores'
+        '401':
+          description: 'Unauthorized'
+        '409':
+          description: 'Conflict'
+  /store/update:
+    put:
+      tags:
+        - 'Store'
+      summary: 'Update a store'
+      description: 'Update a store'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateStore'
+      responses:
+        '200':
+          description: 'Ok'
+        '401':
+          description: 'Unauthorized'
+        '409':
+          description: 'Conflict'
+  /store/delete:
+    delete:
+      tags:
+        - 'Store'
+      summary: 'Delete a store'
+      description: 'Delete a store'
+      requestBody:
+        $ref: '#/components/requestBodies/DeleteStore'
+      responses:
+        '200':
+          description: 'Ok'
+        '401':
+          description: 'Unauthorized'
+
+  /store/user:
+    delete:
+      tags:
+        - 'Store'
+      summary: 'Delete a user from a store'
+      description: 'Delete a user from a store'
+      requestBody:
+        $ref: '#/components/requestBodies/RemoveUserFromStore'
+      responses:
+        '200':
+          description: 'Ok'
+        '401':
+          description: 'Unauthorized'
 
 components:
   securitySchemes:
@@ -114,6 +208,91 @@ components:
               - address
               - phone
 
+    GetStoreUsers:
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+            required:
+              - storeId
+
+    AddUserToStore:
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              usersIds:
+                type: 'array'
+                items:
+                  type: 'string'
+                  example: '1'
+
+    UpdateStore:
+      description: 'Updated'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              address:
+                type: 'string'
+                example: '1234 Main St'
+              description:
+                type: 'string'
+                example: 'This is my first store'
+              ownerId:
+                type: 'string'
+                example: '1'
+              phone:
+                type: 'string'
+                example: '123-456-7890'
+              store_name:
+                type: 'string'
+                example: 'My first store'
+            required:
+              - storeId
+
+    DeleteStore:
+      description: 'Deleted'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+            required:
+              - storeId
+
+    RemoveUserFromStore:
+      description: 'Deleted'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              userId:
+                type: 'string'
+                example: '1'
+            required:
+              - storeId
+              - userId
+
   responses:
     CreateUser:
       description: 'Created'
@@ -181,3 +360,61 @@ components:
                     email:
                       type: 'string'
                       example: 'johndoe@email.com'
+
+    GetStoreUsers:
+      description: 'Get users'
+      content:
+        application/json:
+          schema:
+            type: 'array'
+            items:
+              type: 'object'
+              properties:
+                id:
+                  type: 'string'
+                  example: '1'
+                ownerId:
+                  type: 'string'
+                  example: '1'
+                users:
+                  type: 'array'
+                  items:
+                    type: 'object'
+                    properties:
+                      id:
+                        type: 'string'
+                        example: '1'
+                      name:
+                        type: 'string'
+                        example: 'John Doe'
+                      email:
+                        type: 'string'
+                        example: 'johndoe@email.com'
+
+    GetAllUserStores:
+      description: 'Get all stores'
+      content:
+        application/json:
+          schema:
+            type: 'array'
+            items:
+              type: 'object'
+              properties:
+                id:
+                  type: 'string'
+                  example: '1'
+                store_name:
+                  type: 'string'
+                  example: 'My first store'
+                description:
+                  type: 'string'
+                  example: 'This is my first store'
+                address:
+                  type: 'string'
+                  example: '1234 Main St'
+                phone:
+                  type: 'string'
+                  example: '123-456-7890'
+                ownerId:
+                  type: 'string'
+                  example: '1'

@@ -1,7 +1,7 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 
 import { IStoreRepository } from '@domains/repositories/IStoreRepository';
@@ -15,6 +15,14 @@ export class UpdateStoreUseCase {
     const storeFind = await this.storeRepository.findStoreById(store.storeId);
 
     if (!storeFind) throw new NotFoundException('Store not found');
+
+    if (store.store_name) {
+      const tryFindStore = await this.storeRepository.findStoreByName(
+        store.store_name,
+      );
+
+      if (tryFindStore) throw new ConflictException('Store already exists');
+    }
 
     await this.storeRepository.updateStore(store);
   }

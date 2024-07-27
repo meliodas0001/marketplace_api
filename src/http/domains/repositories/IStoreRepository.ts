@@ -20,4 +20,5 @@ export abstract class IStoreRepository {
     storeId: string,
     userId: string,
   ): Promise<UserEntity | null>;
+  abstract findStoreByName(store_name: string): Promise<StoreEntity>;
 }

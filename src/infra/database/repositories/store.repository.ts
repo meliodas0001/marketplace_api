@@ -129,4 +129,12 @@ export class StoreRepository implements IStoreRepository {
 
     return null;
   }
+
+  async findStoreByName(store_name: string): Promise<StoreEntity> {
+    return await this.storeEntity.findOne({
+      where: {
+        store_name,
+      },
+    });
+  }
 }
