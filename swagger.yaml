@@ -1,0 +1,183 @@
+openapi: 3.0.0
+info:
+  title: 'Marketplace api'
+  description: 'A api for marketplace'
+  version: '1.0.0'
+servers:
+  - url: 'http://localhost:3000'
+
+paths:
+  /users:
+    post:
+      tags:
+        - 'Users'
+      summary: 'Create a new user'
+      description: 'Create a new user in the store'
+      responses:
+        '201':
+          $ref: '#/components/responses/CreateUser'
+        '409':
+          description: 'Conflict'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUser'
+  /users/login:
+    post:
+      tags:
+        - 'Users'
+      summary: 'Login a user'
+      description: 'Login a user in the store'
+      responses:
+        '200':
+          $ref: '#/components/responses/LoginUser'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/LoginUser'
+  /store:
+    post:
+      tags:
+        - 'Store'
+      summary: 'Create a new store'
+      description: 'Create a new store in the marketplace'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateStore'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          $ref: '#/components/responses/CreateStore'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  requestBodies:
+    CreateUser:
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              name:
+                type: 'string'
+                example: 'John Doe'
+              email:
+                type: 'string'
+                example: 'johndoe@email.com'
+              password:
+                type: 'string'
+                example: '123456'
+            required:
+              - name
+              - email
+              - password
+    LoginUser:
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              email:
+                type: 'string'
+                example: 'johndoe@email.com'
+              password:
+                type: 'string'
+                example: '123456'
+            required:
+              - email
+              - password
+
+    CreateStore:
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              store_name:
+                type: 'string'
+                example: 'My first store'
+              description:
+                type: 'string'
+                example: 'This is my first store'
+              address:
+                type: 'string'
+                example: '1234 Main St'
+              phone:
+                type: 'string'
+                example: '123-456-7890'
+            required:
+              - store_name
+              - description
+              - address
+              - phone
+
+  responses:
+    CreateUser:
+      description: 'Created'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              id:
+                type: 'string'
+                example: '1'
+              name:
+                type: 'string'
+                example: 'John Doe'
+              email:
+                type: 'string'
+                example: 'johndoe@email.com'
+
+    LoginUser:
+      description: 'Login'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              token:
+                type: 'string'
+
+    CreateStore:
+      description: 'Created'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              id:
+                type: 'string'
+                example: '1'
+              store_name:
+                type: 'string'
+                example: 'My first store'
+              description:
+                type: 'string'
+                example: 'This is my first store'
+              address:
+                type: 'string'
+                example: '1234 Main St'
+              phone:
+                type: 'string'
+                example: '123-456-7890'
+              ownerId:
+                type: 'string'
+                example: '1'
+              users:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    id:
+                      type: 'string'
+                      example: '1'
+                    name:
+                      type: 'string'
+                      example: 'John Doe'
+                    email:
+                      type: 'string'
+                      example: 'johndoe@email.com'
