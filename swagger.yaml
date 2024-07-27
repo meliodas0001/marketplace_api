@@ -20,6 +20,7 @@ paths:
           description: 'Conflict'
       requestBody:
         $ref: '#/components/requestBodies/CreateUser'
+
   /users/login:
     post:
       tags:
@@ -33,6 +34,7 @@ paths:
           description: 'Unauthorized'
       requestBody:
         $ref: '#/components/requestBodies/LoginUser'
+
   /store:
     post:
       tags:
@@ -50,6 +52,7 @@ paths:
           description: 'Unauthorized'
         '409':
           description: 'Conflict'
+
   /store/users:
     get:
       tags:
@@ -73,6 +76,8 @@ paths:
         - 'Store'
       summary: 'Add a user to a store'
       description: 'Add a user to a store'
+      security:
+        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/AddUserToStore'
       responses:
@@ -98,12 +103,15 @@ paths:
           description: 'Unauthorized'
         '409':
           description: 'Conflict'
+
   /store/update:
     put:
       tags:
         - 'Store'
       summary: 'Update a store'
       description: 'Update a store'
+      security:
+        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/UpdateStore'
       responses:
@@ -113,10 +121,13 @@ paths:
           description: 'Unauthorized'
         '409':
           description: 'Conflict'
+
   /store/delete:
     delete:
       tags:
         - 'Store'
+      security:
+        - bearerAuth: []
       summary: 'Delete a store'
       description: 'Delete a store'
       requestBody:
@@ -133,6 +144,8 @@ paths:
         - 'Store'
       summary: 'Delete a user from a store'
       description: 'Delete a user from a store'
+      security:
+        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/RemoveUserFromStore'
       responses:
@@ -140,6 +153,75 @@ paths:
           description: 'Ok'
         '401':
           description: 'Unauthorized'
+
+  /categories:
+    post:
+      tags:
+        - 'Categories'
+      summary: 'Create a new product category'
+      description: 'Create a new product category in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          $ref: '#/components/responses/CreateCategory'
+        '409':
+          description: 'Conflict'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateCategory'
+
+    get:
+      tags:
+        - 'Categories'
+      summary: 'Get all product categories'
+      description: 'Get all product categories in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/GetAllCategories'
+        '409':
+          description: 'Conflict'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/GetAllCategories'
+
+    put:
+      tags:
+        - 'Categories'
+      summary: 'Update a product category'
+      description: 'Update a product category in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/UpdateCategory'
+        '409':
+          description: 'Conflict'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateCategory'
+
+    delete:
+      tags:
+        - 'Categories'
+      summary: 'Delete a product category'
+      description: 'Delete a product category in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'Ok'
+        '409':
+          description: 'Conflict'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/DeleteCategory'
 
 components:
   securitySchemes:
@@ -293,6 +375,74 @@ components:
               - storeId
               - userId
 
+    CreateCategory:
+      description: 'Created'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              name:
+                type: 'string'
+                example: 'Electronics'
+            required:
+              - storeId
+              - name
+
+    GetAllCategories:
+      description: 'Get all categories'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+            required:
+              - storeId
+
+    UpdateCategory:
+      description: 'Updated'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              name:
+                type: 'string'
+                example: 'current name'
+              updatedName:
+                type: 'string'
+                example: 'new name'
+            required:
+              - storeId
+              - name
+              - updatedName
+
+    DeleteCategory:
+      description: 'Deleted'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              name:
+                type: 'string'
+                example: 'Electronics'
+            required:
+              - storeId
+              - name
+
   responses:
     CreateUser:
       description: 'Created'
@@ -418,3 +568,56 @@ components:
                 ownerId:
                   type: 'string'
                   example: '1'
+
+    CreateCategory:
+      description: 'Created'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              id:
+                type: 'string'
+                example: '1'
+              name:
+                type: 'string'
+                example: 'Electronics'
+              storeId:
+                type: 'string'
+                example: '1'
+
+    GetAllCategories:
+      description: 'Get all categories'
+      content:
+        application/json:
+          schema:
+            type: 'array'
+            items:
+              type: 'object'
+              properties:
+                id:
+                  type: 'string'
+                  example: '1'
+                name:
+                  type: 'string'
+                  example: 'Electronics'
+                storeId:
+                  type: 'string'
+                  example: '1'
+
+    UpdateCategory:
+      description: 'Updated'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              id:
+                type: 'string'
+                example: '1'
+              name:
+                type: 'string'
+                example: 'new name'
+              storeId:
+                type: 'string'
+                example: '1'
