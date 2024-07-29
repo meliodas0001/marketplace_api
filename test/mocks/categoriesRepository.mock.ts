@@ -1,4 +1,3 @@
-import { CategoriesEntity } from '@database/entities/categories.entity';
 import { ICategoriesRepository } from '@domains/repositories/ICategoriesRepository';
 
 export const categoriesRepositoryMock: ICategoriesRepository = {

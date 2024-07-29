@@ -16,7 +16,7 @@ describe('update product use case', () => {
 
   const product = {
     storeId: '1',
-    id: '1',
+    productId: '1',
     name: 'sla novo nome',
     description: 'nova description sla',
     categoriesIds: ['1'],

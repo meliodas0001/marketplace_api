@@ -20,19 +20,20 @@ import { RolesGuard } from '@guards/roles.guard';
 
 import { CreateProductsUseCase } from '@useCases/products/createProduct.useCase';
 import { UpdateProductUseCase } from '@useCases/products/updateProduct.useCase';
+import { FindAllStoreProductsUseCase } from '@useCases/products/findAllStoreProducts.useCase';
+import { DeleteProductUseCase } from '@useCases/products/deleteProduct.useCase';
+import { FindProductsByCategory } from '@useCases/products/findProductsByCategory.useCase';
 
 import { ValidatorPipe } from '@validators/validatorPipe';
 import { CreateProductSchema } from '@validators/schemas/products/createProductSchema';
 import { UpdateProductSchema } from '@validators/schemas/products/updateProductSchema';
-import { FindAllStoreProductsUseCase } from '@useCases/products/findAllStoreProducts.useCase';
-import { IUpdateProductDTO } from '@domains/dtos/products/IUpdateProductDTO';
 import { FindAllStoreProductsSchema } from '@validators/schemas/products/findAllStoreProductsSchema';
-import { IFindAllStoreProducts } from '@domains/dtos/products/IFindAllStoreProducts';
-import { FindProductsByCategory } from '@useCases/products/findProductsByCategory.useCase';
-import { DeleteProductUseCase } from '@useCases/products/deleteProduct.useCase';
 import { deleteProductSchema } from '@validators/schemas/products/deleteProductSchema';
-import { IDeleteProduct } from '@domains/dtos/products/IDeleteProduct';
 import { getProductByCategorySchema } from '@validators/schemas/category/getProductByCategorySchema';
+
+import { IUpdateProductDTO } from '@domains/dtos/products/IUpdateProductDTO';
+import { IFindAllStoreProducts } from '@domains/dtos/products/IFindAllStoreProducts';
+import { IDeleteProduct } from '@domains/dtos/products/IDeleteProduct';
 import { IGetProductByCategory } from '@domains/dtos/products/IGetProductsByCategory';
 
 @Controller('products')

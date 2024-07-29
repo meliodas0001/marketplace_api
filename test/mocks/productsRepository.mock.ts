@@ -1,3 +1,4 @@
+import { ProductsEntity } from '@database/entities/products.entity';
 import { IProductsRepository } from '@domains/repositories/IProductsRepository';
 
 export const productsRepositoryMock: IProductsRepository = {
@@ -7,4 +8,5 @@ export const productsRepositoryMock: IProductsRepository = {
   findProductByName: jest.fn(),
   findProductById: jest.fn(),
   findAllStoreProducts: jest.fn(),
+  findProductByCategory: jest.fn(),
 };
