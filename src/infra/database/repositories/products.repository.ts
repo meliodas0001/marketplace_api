@@ -27,12 +27,12 @@ export class ProductsRepository implements IProductsRepository {
   }
 
   async update(product: IUpdateProduct): Promise<ProductsEntity> {
-    const { id, name, description, categories } = product;
+    const { productId, name, description, categories } = product;
 
     const productFind = await this.productsEntity.findOne({
       relations: ['categories'],
       where: {
-        id,
+        id: productId,
       },
     });
 

@@ -67,12 +67,18 @@ export class ProductsController {
     @Body(new ValidatorPipe(UpdateProductSchema)) body: IUpdateProductDTO,
     @Res() res: Response,
   ) {
-    const { categoriesIds, id, productPrice, storeId, description, name } =
-      body;
+    const {
+      categoriesIds,
+      productId,
+      productPrice,
+      storeId,
+      description,
+      name,
+    } = body;
 
     const productUpdated = await this.updateProductsUseCase.execute({
       categoriesIds,
-      id,
+      productId,
       productPrice,
       storeId,
       description,

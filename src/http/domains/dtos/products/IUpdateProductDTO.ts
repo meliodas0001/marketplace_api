@@ -1,5 +1,5 @@
 export interface IUpdateProductDTO {
-  id: string;
+  productId: string;
   storeId: string;
   name?: string;
   description?: string;

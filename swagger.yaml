@@ -290,6 +290,24 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/GetAllProductsByCategory'
 
+  /roles:
+    put:
+      tags:
+        - 'Roles'
+      summary: 'Update a user role'
+      description: 'Update a user role in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'Created'
+        '401':
+          description: 'Unauthorized'
+        '409':
+          description: 'Conflict'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateRole'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -626,6 +644,23 @@ components:
               categoryName:
                 type: 'string'
                 example: 'Electronics'
+
+    UpdateRole:
+      description: 'Updated'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              updUserId:
+                type: 'string'
+                example: '1'
+              role:
+                type: 'string'
+                example: 'Admin'
+              storeId:
+                type: 'string'
+                example: '1'
 
   responses:
     CreateUser:

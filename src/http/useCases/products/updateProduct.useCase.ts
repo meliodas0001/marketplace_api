@@ -16,7 +16,7 @@ export class UpdateProductUseCase {
 
   async execute(productUpdate: IUpdateProductDTO) {
     const productFind = await this.productRepository.findProductById(
-      productUpdate.id,
+      productUpdate.productId,
     );
 
     const { productPrice, categoriesIds, ...productsWithoutProductPrice } =
@@ -38,7 +38,7 @@ export class UpdateProductUseCase {
 
     const updatePrice = await this.productsPriceRepository.update({
       ...productPrice,
-      id: productUpdate.id,
+      id: productUpdate.productId,
     });
 
     return updateProductMapper({ ...updateProduct, ...updatePrice });

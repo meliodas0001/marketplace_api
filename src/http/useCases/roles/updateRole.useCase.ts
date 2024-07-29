@@ -27,7 +27,7 @@ export class UpdateRoleUseCase {
     if (!findRole) throw new NotFoundException('Role not found');
 
     if (
-      (findStore.ownerId != userId && role === 'admin') ||
+      (findStore.ownerId != userId && role === 'Admin') ||
       findStore.ownerId === updUserId
     )
       throw new UnauthorizedException('User not authorized');
