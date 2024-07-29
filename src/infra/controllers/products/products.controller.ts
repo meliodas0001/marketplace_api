@@ -2,6 +2,7 @@ import { Response } from 'express';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   Put,
@@ -28,6 +29,9 @@ import { IUpdateProductDTO } from '@domains/dtos/products/IUpdateProductDTO';
 import { FindAllStoreProductsSchema } from '@validators/schemas/products/findAllStoreProductsSchema';
 import { IFindAllStoreProducts } from '@domains/dtos/products/IFindAllStoreProducts';
 import { FindProductsByCategory } from '@useCases/products/findProductsByCategory.useCase';
+import { DeleteProductUseCase } from '@useCases/products/deleteProduct.useCase';
+import { deleteProductSchema } from '@validators/schemas/products/deleteProductSchema';
+import { IDeleteProduct } from '@domains/dtos/products/IDeleteProduct';
 
 @Controller('products')
 @UseGuards(AuthGuard)
@@ -37,6 +41,7 @@ export class ProductsController {
     private updateProductsUseCase: UpdateProductUseCase,
     private findAllStoreProductsUseCase: FindAllStoreProductsUseCase,
     private findProductByCategoryUseCase: FindProductsByCategory,
+    private deleteProductUseCase: DeleteProductUseCase,
   ) {}
 
   @Post()
@@ -115,5 +120,19 @@ export class ProductsController {
     );
 
     res.json(products).send();
+  }
+
+  @Delete()
+  @UseGuards(RolesGuard)
+  @Roles(RoleEnum.Admin, RoleEnum.Moderator)
+  async deleteProduct(
+    @Body(new ValidatorPipe(deleteProductSchema)) body: IDeleteProduct,
+    @Res() res: Response,
+  ) {
+    const { productId } = body;
+
+    await this.deleteProductUseCase.execute(productId);
+
+    res.status(204).send();
   }
 }
