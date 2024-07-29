@@ -275,9 +275,9 @@ Após toda configuração das váriaveis de ambiente e a instalação das depend
 #### Estrutura de requisição
 
 | Campo         | Tipo         | Descrição     |
-| ------------- | ------------ | ------------- | --- |
+| ------------- | ------------ | ------------- |
 | **`storeId`** | **`String`** | Id da loja    |
-| **`userId`**  | **`String`** | Id de usuário |     |
+| **`userId`**  | **`String`** | Id de usuário |
 
 #### Response
 
@@ -529,6 +529,27 @@ Após toda configuração das váriaveis de ambiente e a instalação das depend
   ],
   "total": 1
 }
+```
+
+</details>
+
+#### Atualizar Cargo do usuário
+
+<details>
+  <summary><code>PUT</code> <code><b></b></code> <code>(Atualizar Role)</code></summary>
+
+#### Estrutura de requisição
+
+| Campo           | Tipo         | Descrição                         |
+| --------------- | ------------ | --------------------------------- |
+| **`storeId`**   | **`String`** | Id da loja                        |
+| **`updUserId`** | **`String`** | Id do usuário para ser atualizado |
+| **`role`**      | **`String`** | Role do usuário                   |
+
+#### Response
+
+```
+201
 ```
 
 </details>
