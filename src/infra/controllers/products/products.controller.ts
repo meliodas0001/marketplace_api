@@ -32,6 +32,8 @@ import { FindProductsByCategory } from '@useCases/products/findProductsByCategor
 import { DeleteProductUseCase } from '@useCases/products/deleteProduct.useCase';
 import { deleteProductSchema } from '@validators/schemas/products/deleteProductSchema';
 import { IDeleteProduct } from '@domains/dtos/products/IDeleteProduct';
+import { getProductByCategorySchema } from '@validators/schemas/category/getProductByCategorySchema';
+import { IGetProductByCategory } from '@domains/dtos/products/IGetProductsByCategory';
 
 @Controller('products')
 @UseGuards(AuthGuard)
@@ -109,7 +111,11 @@ export class ProductsController {
   }
 
   @Get('category/all')
-  async findByCategory(@Body() body: any, @Res() res: Response) {
+  async findByCategory(
+    @Body(new ValidatorPipe(getProductByCategorySchema))
+    body: IGetProductByCategory,
+    @Res() res: Response,
+  ) {
     const { categoryName, storeId, page, pageSize } = body;
 
     const products = await this.findProductByCategoryUseCase.execute(
