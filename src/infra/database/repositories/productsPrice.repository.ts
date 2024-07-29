@@ -53,7 +53,11 @@ export class ProductsPriceRepository implements IProductsPriceRepository {
     return updatedProductPrice;
   }
 
-  async delete(id: string): Promise<void> {
-    await this.productsPriceEntity.delete(id);
+  async deleteByProductId(id: string): Promise<void> {
+    await this.productsPriceEntity.delete({
+      products: {
+        id,
+      },
+    });
   }
 }

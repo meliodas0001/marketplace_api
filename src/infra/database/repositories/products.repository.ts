@@ -119,7 +119,9 @@ export class ProductsRepository implements IProductsRepository {
     return { items, total };
   }
 
-  async delete(id: string): Promise<void> {
-    await this.productsEntity.delete(id);
+  async deleteByProductId(id: string): Promise<void> {
+    await this.productsEntity.delete({
+      id,
+    });
   }
 }

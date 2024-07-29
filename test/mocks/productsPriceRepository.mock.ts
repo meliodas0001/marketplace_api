@@ -3,5 +3,5 @@ import { IProductsPriceRepository } from '@domains/repositories/IProductsPriceRe
 export const productsPriceRepositoryMock: IProductsPriceRepository = {
   create: jest.fn(),
   update: jest.fn(),
-  delete: jest.fn(),
+  deleteByProductId: jest.fn(),
 };

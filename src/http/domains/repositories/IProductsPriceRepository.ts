@@ -9,5 +9,5 @@ export abstract class IProductsPriceRepository {
   abstract update(
     productsPrice: IUpdateProductsPrice,
   ): Promise<ProductsPriceEntity>;
-  abstract delete(id: string): Promise<void>;
+  abstract deleteByProductId(id: string): Promise<void>;
 }
