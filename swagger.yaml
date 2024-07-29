@@ -223,6 +223,73 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/DeleteCategory'
 
+  /products:
+    post:
+      tags:
+        - 'Products'
+      summary: 'Create a new product'
+      description: 'Create a new product in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          $ref: '#/components/responses/CreateProduct'
+        '409':
+          description: 'Conflict'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/CreateProduct'
+
+    put:
+      tags:
+        - 'Products'
+      summary: 'Update a product'
+      description: 'Update a product in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/UpdateProduct'
+        '409':
+          description: 'Conflict'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateProduct'
+
+  /products/all:
+    get:
+      tags:
+        - 'Products'
+      summary: 'Get all products'
+      description: 'Get all products in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/GetAllProducts'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/GetAllProducts'
+
+  /products/category/all:
+    get:
+      tags:
+        - 'Products'
+      summary: 'Get all products by category'
+      description: 'Get all products by category in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/GetAllProductsByCategory'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/GetAllProductsByCategory'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -443,6 +510,123 @@ components:
               - storeId
               - name
 
+    CreateProduct:
+      description: 'Created'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: 'Iphone 12'
+              description:
+                type: string
+                example: 'This is a new phone'
+              price:
+                type: number
+                example: 1000
+              currency:
+                type: string
+                example: 'USD'
+              category:
+                type: string
+                example: 'Electronics'
+              storeId:
+                type: string
+                example: '1'
+            required:
+              - name
+              - description
+              - price
+              - currency
+              - category
+              - storeId
+
+    UpdateProduct:
+      description: 'Updated'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: '1'
+              name:
+                type: string
+                example: 'Iphone 12'
+              description:
+                type: string
+                example: 'This is a new phone'
+              categoriesIds:
+                type: array
+                items:
+                  type: string
+                  example: '1'
+              storeId:
+                type: string
+                example: '1'
+
+              productPrice:
+                type: object
+                properties:
+                  amount:
+                    type: number
+                    example: 1000
+                  currency:
+                    type: string
+                    example: 'USD'
+
+            required:
+              - id
+              - name
+              - description
+              - categoriesIds
+              - storeId
+              - productPrice
+
+    GetAllProducts:
+      description: 'Get all products'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              page:
+                type: 'number'
+                example: 1
+              pageSize:
+                type: 'number'
+                example: 10
+            required:
+              - storeId
+              - page
+              - pageSize
+
+    GetAllProductsByCategory:
+      description: 'Get all products by category'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: 'string'
+                example: '1'
+              page:
+                type: 'number'
+                example: 1
+              pageSize:
+                type: 'number'
+                example: 10
+              categoryName:
+                type: 'string'
+                example: 'Electronics'
+
   responses:
     CreateUser:
       description: 'Created'
@@ -621,3 +805,154 @@ components:
               storeId:
                 type: 'string'
                 example: '1'
+
+    CreateProduct:
+      description: 'Created'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              product_id:
+                type: string
+                example: '1'
+              productName:
+                type: string
+                example: 'Iphone 12'
+              productDescription:
+                type: string
+                example: 'This is a new phone'
+              currency:
+                type: string
+                example: 'USD'
+              productPrice:
+                type: number
+                example: 1000
+              productCategories:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '1'
+                    name:
+                      type: string
+                      example: 'Electronics'
+                    storeId:
+                      type: string
+                      example: '1'
+
+    UpdateProduct:
+      description: 'Updated'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              productId:
+                type: string
+                example: '1'
+              productName:
+                type: string
+                example: 'Iphone 12'
+              description:
+                type: string
+                example: 'This is a new phone'
+              productPrice:
+                type: number
+                example: 1000
+              currency:
+                type: string
+                example: 'USD'
+              storeId:
+                type: string
+                example: '1'
+              categories:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: '1'
+                    name:
+                      type: string
+                      example: 'Electronics'
+                    storeId:
+                      type: string
+                      example: '1'
+
+    GetAllProducts:
+      description: 'Get all products'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              products:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    id:
+                      type: 'string'
+                      example: '1'
+                    name:
+                      type: 'string'
+                      example: 'Iphone 12'
+                    description:
+                      type: 'string'
+                      example: 'This is a new phone'
+                    productsPrice:
+                      type: 'object'
+                      properties:
+                        amount:
+                          type: 'number'
+                          example: 1000
+                        currency:
+                          type: 'string'
+                          example: 'USD'
+                        id:
+                          type: 'string'
+                          example: '1'
+              total:
+                type: 'number'
+                example: 1
+
+    GetAllProductsByCategory:
+      description: 'Get all products by category'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              products:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    id:
+                      type: 'string'
+                      example: '1'
+                    name:
+                      type: 'string'
+                      example: 'Iphone 12'
+                    description:
+                      type: 'string'
+                      example: 'This is a new phone'
+                    productsPrice:
+                      type: 'object'
+                      properties:
+                        amount:
+                          type: 'number'
+                          example: 1000
+                        currency:
+                          type: 'string'
+                          example: 'USD'
+                        id:
+                          type: 'string'
+                          example: '1'
+              total:
+                type: 'number'
+                example: 1

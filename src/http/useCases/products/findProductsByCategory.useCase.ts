@@ -22,11 +22,17 @@ export class FindProductsByCategory {
 
     if (!categoryExists) throw new NotFoundException('Category not found');
 
-    return await this.productsRepository.findProductByCategory(
-      category,
-      storeId,
-      page,
-      pageSize,
-    );
+    const { items, total } =
+      await this.productsRepository.findProductByCategory(
+        category,
+        storeId,
+        page,
+        pageSize,
+      );
+
+    return {
+      products: items,
+      total,
+    };
   }
 }
