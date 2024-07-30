@@ -26,7 +26,8 @@ O que essa api pode fazer:
 - [Instalação de dependências](#instalação-de-dependencias)
 - [Configuração das váriaveis de ambiente](#configuração-das-variáveis-de-ambiente)
 - [Execução da aplicação](#execução-da-aplicação)
-- [Endpoints]()
+- [Endpoints](#endpoints)
+- [Insomnia](#)
 
 ### Docker
 
@@ -573,3 +574,7 @@ Após toda configuração das váriaveis de ambiente e a instalação das depend
 ```
 
 </details>
+
+### Insomnia
+
+Caso queira utilizar o insomnia com todos endpoints criados basta importar o [arquivo](./marketplaceInsomnia.json) no insomnia.
