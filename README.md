@@ -533,6 +533,26 @@ Após toda configuração das váriaveis de ambiente e a instalação das depend
 
 </details>
 
+#### Deletar Produto
+
+<details>
+  <summary><code>DELETE</code> <code><b></b></code> <code>(Deletar produto)</code></summary>
+
+#### Estrutura de requisição
+
+| Campo           | Tipo         | Descrição     |
+| --------------- | ------------ | ------------- |
+| **`storeId`**   | **`String`** | Id da loja    |
+| **`productId`** | **`String`** | Id do produto |
+
+#### Response
+
+```
+204
+```
+
+</details>
+
 #### Atualizar Cargo do usuário
 
 <details>

@@ -258,6 +258,21 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/UpdateProduct'
 
+    delete:
+      tags:
+        - 'Products'
+      summary: 'Delete a product'
+      description: 'Delete a product in the store'
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: 'Ok'
+        '401':
+          description: 'Unauthorized'
+      requestBody:
+        $ref: '#/components/requestBodies/DeleteProduct'
+
   /products/all:
     get:
       tags:
@@ -660,6 +675,20 @@ components:
                 example: 'Admin'
               storeId:
                 type: 'string'
+                example: '1'
+
+    DeleteProduct:
+      description: 'Deleted'
+      content:
+        application/json:
+          schema:
+            type: 'object'
+            properties:
+              storeId:
+                type: string
+                example: '1'
+              productId:
+                type: string
                 example: '1'
 
   responses:
